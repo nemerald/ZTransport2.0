@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZTransport2.0</string>
+    <string name="app_name">ZTransport</string>
     <string name="tab_title_log_and_status">Logg</string>
     <string name="tab_title_time_report">Tidrapport</string>
     <string name="tab_title_user">Användare</string>
