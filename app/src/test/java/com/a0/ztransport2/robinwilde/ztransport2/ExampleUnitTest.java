@@ -1,4 +1,4 @@
-package com.a0.ztransport2.robinwilde.ztransport20;
+package com.a0.ztransport2.robinwilde.ztransport2;
 
 import org.junit.Test;
 
