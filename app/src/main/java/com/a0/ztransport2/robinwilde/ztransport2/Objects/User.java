@@ -36,7 +36,7 @@ public class User {
         return eMail;
     }
 
-    public Boolean getAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 

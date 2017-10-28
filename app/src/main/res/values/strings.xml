@@ -3,4 +3,20 @@
     <string name="tab_title_log_and_status">Logg</string>
     <string name="tab_title_time_report">Tidrapport</string>
     <string name="tab_title_user">Användare</string>
+    <string name="shared_prefs_user_id">saved_user_id</string>
+    <string name="shared_prefs_user_name">saved_user_name</string>
+    <string name="shared_prefs_user_phone_number">saved_user_phone_number</string>
+    <string name="shared_prefs_user_email">saved_user_email</string>
+    <string name="shared_prefs_is_admin">isAdmin</string>
+    <string name="confirm">Ok</string>
+    <string name="cancel">Avbryt</string>
+    <string name="user_data_input">Ange uppgifter</string>
+    <string name="user_name">Användarnamn</string>
+    <string name="your_name">Ditt namn</string>
+    <string name="email">Mailadress</string>
+    <string name="phone_number">Telefonnummer</string>
+    <string name="error_no_input_from_user">Du måste ange alla uppgifter</string>
+    <string name="error_vibrate">error</string>
+    <string name="only_once_message">(Görs bara en gång)</string>
+    <string name="error_not_correct_email">Felaktig mailadress</string>
 </resources>
