@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="area_array">
+        <item>Bohuslän</item>
+        <item>Borås</item>
+        <item>Halland</item>
+        <item>Göteborg</item>
+        <item>Övrig</item>
+    </string-array>
+</resources>

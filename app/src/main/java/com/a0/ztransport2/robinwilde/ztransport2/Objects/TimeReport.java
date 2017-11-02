@@ -77,7 +77,7 @@ public class TimeReport {
         return hours;
     }
 
-    public boolean isRoute() {
+    public boolean getIsRoute() {
         return isRoute;
     }
 
@@ -85,7 +85,7 @@ public class TimeReport {
         return workDescription;
     }
 
-    public boolean isChangedByAdmin() {
+    public boolean getIsChangedByAdmin() {
         return changedByAdmin;
     }
 

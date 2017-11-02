@@ -13,11 +13,35 @@ public class User {
     private String eMail;
     private boolean isAdmin;
 
+    public User(){
+
+    }
+
     public User(String name, String phoneNumber, String eMail, boolean isAdmin){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
         this.isAdmin = isAdmin;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public String getuId() {
