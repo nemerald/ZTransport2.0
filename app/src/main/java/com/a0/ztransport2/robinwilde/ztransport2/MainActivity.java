@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
                 }
                 else{
                     ArrayList<String> userInput = new ArrayList<>();
-                    userInput.add(etUserName.getText().toString());
-                    userInput.add(etPhoneNumber.getText().toString());
-                    userInput.add(etEmail.getText().toString());
+                    userInput.add(etUserName.getText().toString().trim());
+                    userInput.add(etPhoneNumber.getText().toString().trim());
+                    userInput.add(etEmail.getText().toString().trim());
                     //TODO check if user exist in Database
                     setSharedPrefsAndSendUserData(userInput);
 
@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         editor.putString(getString(R.string.shared_prefs_user_phone_number), user.getPhoneNumber());
         editor.putBoolean(getString(R.string.shared_prefs_is_admin), user.getIsAdmin());
         editor.commit();
+
+        //TODO insert to database
 
         setUserDataInUserFragment();
         setSharedPrefsInTimeReportFragment();

@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
+
 public class TimeReportFragment extends Fragment {
     FragmentCommunicator mCallback;
     String driverName;
@@ -378,10 +380,12 @@ public class TimeReportFragment extends Fragment {
                 (area.equals(getString(R.string.OTHER)) && HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etOtherArea.getText().toString()))
                 || rgHourData.getCheckedRadioButtonId()==-1){
             Toast.makeText(getActivity(), getString(R.string.error_no_input_from_mandatory_fields), Toast.LENGTH_LONG).show();
+            vibrate(getActivity(), getString(R.string.error_vibrate));
             return false;
         }
         else if(HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etWorkDescription.getText().toString())){
             Toast.makeText(getActivity(), getString(R.string.error_no_input_from_mandatory_fields), Toast.LENGTH_LONG).show();
+            vibrate(getActivity(), getString(R.string.error_vibrate));
             return false;
         }
         else{
