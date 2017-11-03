@@ -12,16 +12,19 @@ public class User {
     private String phoneNumber;
     private String eMail;
     private boolean isAdmin;
+    private boolean hasPermissionToReport;
 
     public User(){
 
     }
 
-    public User(String name, String phoneNumber, String eMail, boolean isAdmin){
+    public User(String name, String phoneNumber, String eMail, boolean isAdmin, boolean hasPermissionToReport){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
         this.isAdmin = isAdmin;
+        this.hasPermissionToReport = hasPermissionToReport;
+
     }
 
     public void setuId(String uId) {
@@ -62,6 +65,10 @@ public class User {
 
     public Boolean getIsAdmin() {
         return isAdmin;
+    }
+
+    public boolean isHasPermissionToReport() {
+        return hasPermissionToReport;
     }
 
     @Override

@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     private void setSharedPrefsAndSendUserData(ArrayList userInput) {
 
         user = new User(userInput.get(0).toString(), userInput.get(1).toString(),
-                userInput.get(2).toString(), false);
+                userInput.get(2).toString(), false, false);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(getString(R.string.shared_prefs_user_id), user.getuId());
