@@ -1,6 +1,7 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -51,8 +52,6 @@ public class UserFragment extends Fragment {
         cbMakeUpdateInfoPossible = (CheckBox) view.findViewById(R.id.cbActivateUpdateInfo);
         bUpdateInfo = (Button) view.findViewById(R.id.bUpdateUserInfo);
 
-        setDefaultState();
-
         cbMakeUpdateInfoPossible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +73,8 @@ public class UserFragment extends Fragment {
             }
         });
 
+        setDefaultState();
+        setUserData();
     }
 
     private void setDefaultState() {
@@ -89,9 +90,16 @@ public class UserFragment extends Fragment {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public void getUserData(User user) {
-        etUserName.setText(user.getName());
-        etUserMail.setText(user.geteMail());
-        etUserPhoneNumber.setText(user.getPhoneNumber());
+    public void setUserData() {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(
+                getString(R.string.shared_preference_name), Context.MODE_PRIVATE);
+
+        String userName = sharedPreferences.getString(getString(R.string.shared_prefs_user_name), null);
+        String userMail = sharedPreferences.getString(getString(R.string.shared_prefs_user_email), null);
+        String userPhoneNumber = sharedPreferences.getString(getString(R.string.shared_prefs_user_phone_number), null);
+
+        etUserName.setText(userName);
+        etUserMail.setText(userMail);
+        etUserPhoneNumber.setText(userPhoneNumber);
     }
 }

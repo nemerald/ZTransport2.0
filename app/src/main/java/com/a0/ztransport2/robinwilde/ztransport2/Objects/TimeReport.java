@@ -13,6 +13,7 @@ public class TimeReport {
     private String day;
     private String week;
     private String driver;
+    private String driverId;
     private String costumer;
     private String area;
     private String hours;
@@ -23,7 +24,7 @@ public class TimeReport {
     private String inputTimeStamp;
 
     public TimeReport(String year, String month, String day, String week, String driver,
-                      String costumer, String area, String hours, boolean isRoute,
+                      String driverId, String costumer, String area, String hours, boolean isRoute,
                       String workDescription, boolean changedByAdmin, String reportedBy,
                       String inputTimeStamp){
         this.year = year;
@@ -31,6 +32,7 @@ public class TimeReport {
         this.day = day;
         this.week = week;
         this.driver = driver;
+        this.driverId = driverId;
         this.costumer = costumer;
         this.area = area;
         this.hours = hours;
@@ -44,11 +46,15 @@ public class TimeReport {
     public String gettRId() {
         return tRId;
     }
-
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
+    }
     public String getYear() {
         return year;
     }
-
+    public String getDriverId() {
+        return driverId;
+    }
     public String getMonth() {
         return month;
     }

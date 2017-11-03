@@ -29,7 +29,7 @@ public class ExampleUnitTest {
     }
     @Test
     public void testTimeReportObject(){
-        TimeReport tr = new TimeReport("2017", "10", "27", "42", "Robin", "DHL", "Göteborg",
+        TimeReport tr = new TimeReport("2017", "10", "27", "42", "Robin","guid-123123", "DHL", "Göteborg",
                 "9", false, "Testade att köra", false, "Max", "2017-10-27");
         String iTr = tr.toString();
     }

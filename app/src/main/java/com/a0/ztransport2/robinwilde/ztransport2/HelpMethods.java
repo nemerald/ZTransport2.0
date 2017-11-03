@@ -86,6 +86,7 @@ public class HelpMethods {
         dataMap.put("day",timeReport.getDay());
         dataMap.put("week",timeReport.getWeek());
         dataMap.put("driver",timeReport.getDriver());
+        dataMap.put("driverId", timeReport.getDriverId());
         dataMap.put("area",timeReport.getArea());
         dataMap.put("costumer",timeReport.getCostumer());
         dataMap.put("hours",timeReport.getHours());
