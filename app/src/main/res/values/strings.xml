@@ -29,7 +29,7 @@
     <string name="pick_costumer">Välj kund:</string>
     <string name="pick_area">Välj område:</string>
     <string name="pick_worked_time">Arbetade timmar:</string>
-    <string name="_picked_route">Rutt</string>
+    <string name="_picked_route">Tur</string>
     <string name="_picked_hours">Timmar</string>
     <string name="work_desc_title">Arbetsbeskrivning:</string>
     <string name="write_here">Skriv här</string>
@@ -46,7 +46,7 @@
     <string name="input_driver">Förare:</string>
     <string name="input_costumer">Kund:</string>
     <string name="input_hours">Timmar:</string>
-    <string name="input_is_route">Rutt:</string>
+    <string name="input_is_route">Tur:</string>
     <string name="input_area">Område:</string>
     <string name="input_work_description">Arbetsbeskrivning:</string>
     <string name="yes">Ja:</string>
