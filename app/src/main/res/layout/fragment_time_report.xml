@@ -24,11 +24,13 @@
 
         <Button
             android:id="@+id/bShowDateDialog"
+            android:background="@drawable/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
-            android:text="@string/pick_date"/>
+            android:text="@string/pick_date"
+            android:textColor="@drawable/button_text_color"/>/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +53,8 @@
             android:maxLines="1"
             android:gravity="center"
             android:background="@drawable/textinputborder"
-            android:inputType="text">
+            android:inputType="text"
+            android:textColor="@color/primary_text">
         </EditText>
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +78,8 @@
             android:maxLines="1"
             android:gravity="center"
             android:background="@drawable/textinputborder"
-            android:inputType="text">
+            android:inputType="text"
+            android:textColor="@color/primary_text">
         </EditText>
         <TextView
             android:id="@+id/workDescTitle"
@@ -96,7 +100,8 @@
             android:maxLines="4"
             android:background="@drawable/textinputborder"
             android:hint="@string/write_here"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="@color/primary_text"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,10 +145,13 @@
         </LinearLayout>
         <Button
             android:id="@+id/bConfirmAndSendTimeReport"
+            android:background="@drawable/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal"
-            android:text="@string/send_report"/>
+            android:text="@string/send_report"
+            android:textColor="@drawable/button_text_color"/>/>
     </LinearLayout>
 </ScrollView>

@@ -33,9 +33,13 @@ public class DbHelperMethods {
 
                 try {
                     String responseString = (String) response.get("response");
-
-
-
+                    String statusString = (String) response.get("status");
+                    if(statusString.equals("200")){
+                        Toast.makeText(context, context.getString(R.string.time_report_success), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(statusString.equals("400")){
+                        Toast.makeText(context, context.getString(R.string.time_report_failed), Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(context,
@@ -48,11 +52,18 @@ public class DbHelperMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(context,
-                        String.valueOf(error.networkResponse.statusCode), Toast.LENGTH_SHORT).show();
+                if(error.networkResponse==null){
+                    Toast.makeText(context, context.getString(R.string.error_network_error), Toast.LENGTH_SHORT).show();
+                }
+                else if(error!= null && error.networkResponse.statusCode==400) {
+                    Toast.makeText(context,
+                            context.getString(R.string.error_network_error_bad_request), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context,
+                            String.valueOf(error.networkResponse.statusCode), Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq);
 

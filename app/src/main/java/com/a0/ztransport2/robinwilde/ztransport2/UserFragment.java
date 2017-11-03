@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ public class UserFragment extends Fragment {
     FragmentCommunicator mCallback;
 
     EditText etUserName, etUserMail, etUserPhoneNumber;
+    CheckBox cbMakeUpdateInfoPossible;
     Button bUpdateInfo;
 
     @Override
@@ -46,9 +48,42 @@ public class UserFragment extends Fragment {
         etUserName = (EditText) view.findViewById(R.id.etUserFragmentUserName);
         etUserMail = (EditText) view.findViewById(R.id.etUserFragmentEmail);
         etUserPhoneNumber = (EditText) view.findViewById(R.id.etUserFragmentPhonenumber);
+        cbMakeUpdateInfoPossible = (CheckBox) view.findViewById(R.id.cbActivateUpdateInfo);
         bUpdateInfo = (Button) view.findViewById(R.id.bUpdateUserInfo);
 
+        setDefaultState();
+
+        cbMakeUpdateInfoPossible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(cbMakeUpdateInfoPossible.isChecked()){
+                    etUserName.setEnabled(true);
+                    etUserPhoneNumber.setEnabled(true);
+                    etUserMail.setEnabled(true);
+                    bUpdateInfo.setEnabled(true);
+                }
+                else{
+                    setDefaultState();
+                }
+            }
+        });
+        bUpdateInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDefaultState();
+            }
+        });
+
     }
+
+    private void setDefaultState() {
+        etUserName.setEnabled(false);
+        etUserPhoneNumber.setEnabled(false);
+        etUserMail.setEnabled(false);
+        bUpdateInfo.setEnabled(false);
+        cbMakeUpdateInfoPossible.setChecked(false);
+    }
+
     public void onRefresh() {
         Toast.makeText(getActivity(), "Fragment user: Refresh called.",
                 Toast.LENGTH_SHORT).show();

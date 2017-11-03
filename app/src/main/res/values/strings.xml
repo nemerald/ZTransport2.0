@@ -56,4 +56,8 @@
     <string name="half_hour">Halvtimma</string>
     <string name="hours">Timmar</string>
     <string name="picked_hours">Timmar:</string>
+    <string name="error_network_error">Nätverksfel. Var god kontrollera nätverksanslutning och försök igen.</string>
+    <string name="error_network_error_bad_request">Nätverksfel. Servern svarar inte. Var god försök senare.</string>
+    <string name="time_report_success">Tidrapport skickad.</string>
+    <string name="time_report_failed">Tidrapportering misslyckades. Försök igen.</string>
 </resources>
