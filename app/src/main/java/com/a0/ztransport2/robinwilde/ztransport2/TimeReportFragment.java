@@ -109,22 +109,22 @@ public class TimeReportFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
                     case 0:
-                        costumer=getString(R.string.CASSELS);
-                        etOtherCostumer.setEnabled(false);
-                        etOtherCostumer.setText("");
-                        break;
-                    case 1:
                         costumer=getString(R.string.DHL);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
                         break;
-                    case 2:
+                    case 1:
                         costumer= getString(R.string.DGF);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
                         break;
-                    case 3:
+                    case 2:
                         costumer=getString(R.string.ALLUM);
+                        etOtherCostumer.setEnabled(false);
+                        etOtherCostumer.setText("");
+                        break;
+                    case 3:
+                        costumer=getString(R.string.CASSELS);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
                         break;
