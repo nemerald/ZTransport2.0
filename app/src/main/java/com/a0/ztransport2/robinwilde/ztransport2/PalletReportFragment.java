@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class LogAndStatusFragment extends Fragment {
+public class PalletReportFragment extends Fragment {
     FragmentCommunicator mCallback;
 
     @Override

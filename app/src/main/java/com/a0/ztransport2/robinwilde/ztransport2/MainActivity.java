@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         ArrayList<String> tabNames = new ArrayList<>();
         tabNames.add(MainActivity.this.getString(R.string.tab_title_user));
         tabNames.add(MainActivity.this.getString(R.string.tab_title_time_report));
-        tabNames.add(MainActivity.this.getString(R.string.tab_title_log_and_status));
+        tabNames.add(MainActivity.this.getString(R.string.tab_title_pallet_report));
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
                         ((TimeReportFragment) fragment).onRefresh();
                         break;
                     case 2:
-                        ((LogAndStatusFragment) fragment).onRefresh();
+                        ((PalletReportFragment) fragment).onRefresh();
                 }
             }
             return true;

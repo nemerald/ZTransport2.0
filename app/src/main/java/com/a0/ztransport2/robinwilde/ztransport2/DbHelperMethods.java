@@ -52,7 +52,7 @@ public class DbHelperMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                if(error.networkResponse==null){
+                if(error==null){
                     Toast.makeText(context, context.getString(R.string.error_network_error), Toast.LENGTH_SHORT).show();
                 }
                 else if(error!= null && error.networkResponse.statusCode==400) {
@@ -64,6 +64,7 @@ public class DbHelperMethods {
                 }
             }
         });
+
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq);
 

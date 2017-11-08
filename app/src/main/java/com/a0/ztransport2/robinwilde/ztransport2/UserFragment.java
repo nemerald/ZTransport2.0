@@ -71,6 +71,7 @@ public class UserFragment extends Fragment {
                     bUpdateInfo.setEnabled(true);
                 }
                 else{
+                    resetUserData();
                     setDefaultState();
                 }
             }
@@ -81,10 +82,12 @@ public class UserFragment extends Fragment {
                 if(isInfoChanged()){
                     showConfirmUserInfoChangeDialog();
                 }
+                else{
+                    resetUserData();
+                }
                 setDefaultState();
             }
         });
-
         setDefaultState();
         setUserData();
     }
@@ -150,13 +153,18 @@ public class UserFragment extends Fragment {
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etUserName.setText(oldUserName);
-                etUserPhoneNumber.setText(oldUserPhonerNumber);
-                etUserMail.setText(oldUserEmail);
+                resetUserData();
 
                 dialog.dismiss();
             }
         });
+    }
+
+    private void resetUserData() {
+
+        etUserName.setText(oldUserName);
+        etUserPhoneNumber.setText(oldUserPhonerNumber);
+        etUserMail.setText(oldUserEmail);
     }
 
     private boolean isInfoChanged() {
@@ -166,10 +174,6 @@ public class UserFragment extends Fragment {
         String newUserName = etUserName.getText().toString().trim();
         String newUserPhonerNumber = etUserPhoneNumber.getText().toString().trim();
         String newUserEmail = etUserMail.getText().toString().trim();
-
-        oldUserName = sharedPreferences.getString(getString(R.string.shared_prefs_user_name), null);
-        oldUserPhonerNumber = sharedPreferences.getString(getString(R.string.shared_prefs_user_phone_number), null);
-        oldUserEmail = sharedPreferences.getString(getString(R.string.shared_prefs_user_email), null);
 
         if(newUserName.equals(oldUserName) && newUserEmail.equals(oldUserEmail) && newUserPhonerNumber.equals(oldUserPhonerNumber)){
             Toast.makeText(getActivity(), getString(R.string.error_no_user_info_changed), Toast.LENGTH_SHORT).show();
@@ -183,7 +187,7 @@ public class UserFragment extends Fragment {
                 vibrate(getActivity(), getString(R.string.error_vibrate));
                 return false;
         }
-        else if(HelpMethods.isEmailValid(newUserEmail)){
+        else if(!HelpMethods.isEmailValid(newUserEmail)){
             Toast.makeText(getActivity(), getString(R.string.error_not_correct_email), Toast.LENGTH_SHORT).show();
             vibrate(getActivity(), getString(R.string.error_vibrate));
             return false;
@@ -210,12 +214,12 @@ public class UserFragment extends Fragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(
                 getString(R.string.shared_preference_name), Context.MODE_PRIVATE);
 
-        String userName = sharedPreferences.getString(getString(R.string.shared_prefs_user_name), null);
-        String userMail = sharedPreferences.getString(getString(R.string.shared_prefs_user_email), null);
-        String userPhoneNumber = sharedPreferences.getString(getString(R.string.shared_prefs_user_phone_number), null);
+        oldUserName = sharedPreferences.getString(getString(R.string.shared_prefs_user_name), null);
+        oldUserEmail = sharedPreferences.getString(getString(R.string.shared_prefs_user_email), null);
+        oldUserPhonerNumber = sharedPreferences.getString(getString(R.string.shared_prefs_user_phone_number), null);
 
-        etUserName.setText(userName);
-        etUserMail.setText(userMail);
-        etUserPhoneNumber.setText(userPhoneNumber);
+        etUserName.setText(oldUserName);
+        etUserMail.setText(oldUserEmail);
+        etUserPhoneNumber.setText(oldUserPhonerNumber);
     }
 }

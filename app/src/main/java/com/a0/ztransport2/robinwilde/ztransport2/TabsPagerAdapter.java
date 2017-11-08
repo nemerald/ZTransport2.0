@@ -28,7 +28,7 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return new TimeReportFragment();
             case 2:
-                return new LogAndStatusFragment();
+                return new PalletReportFragment();
             default:
                 return null;
         }
