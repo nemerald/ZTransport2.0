@@ -49,8 +49,8 @@
     <string name="input_is_route">Tur:</string>
     <string name="input_area">Område:</string>
     <string name="input_work_description">Arbetsbeskrivning:</string>
-    <string name="yes">Ja:</string>
-    <string name="no">Nej:</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
     <string name="input_date">Datum:</string>
     <string name="set_hours">Välj arbetade timmar</string>
     <string name="half_hour">Halvtimma</string>
@@ -67,4 +67,6 @@
     <string name="input_new_name">Namn:</string>
     <string name="user_info_changed">Förändringar gjorda</string>
     <string name="error_empty_fields">Något fält är tomt</string>
+    <string name="not_applicable">N/A</string>
+    <string name="empty">\"\"</string>
 </resources>

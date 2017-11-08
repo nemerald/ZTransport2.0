@@ -112,26 +112,42 @@ public class TimeReportFragment extends Fragment {
                         costumer=getString(R.string.DHL);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
+                        rbRoute.setEnabled(true);
+                        spPickArea.setEnabled(true);
+                        area=spPickArea.getSelectedItem().toString();
                         break;
                     case 1:
                         costumer= getString(R.string.DGF);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
+                        rbRoute.setEnabled(true);
+                        spPickArea.setEnabled(true);
+                        area=spPickArea.getSelectedItem().toString();
                         break;
                     case 2:
                         costumer=getString(R.string.ALLUM);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
+                        rbRoute.setEnabled(true);
+                        spPickArea.setEnabled(true);
+                        area=spPickArea.getSelectedItem().toString();
                         break;
                     case 3:
                         costumer=getString(R.string.CASSELS);
                         etOtherCostumer.setEnabled(false);
                         etOtherCostumer.setText("");
+                        spPickArea.setEnabled(false);
+                        rgHourData.clearCheck();
+                        rbRoute.setEnabled(false);
+                        area=getString(R.string.not_applicable);
                         break;
                     case 4:
                         costumer=getString(R.string.OTHER);
                         etOtherCostumer.setEnabled(true);
                         etOtherCostumer.requestFocus();
+                        rbRoute.setEnabled(true);
+                        spPickArea.setEnabled(true);
+                        area=spPickArea.getSelectedItem().toString();
                         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(etOtherCostumer, InputMethodManager.SHOW_IMPLICIT);
                         break;
