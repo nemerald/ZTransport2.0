@@ -105,17 +105,17 @@ public class UserFragment extends Fragment {
         tvNewPhoneNumber.setText(etUserPhoneNumber.getText().toString());
 
         AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
-        alert.setTitle(UserFragment.this.getString(R.string.confirm_user_change_input));
+        alert.setTitle(getString(R.string.confirm_user_change_input));
         alert.setView(alertCustomLayout);
         alert.setCancelable(false);
-        alert.setPositiveButton(UserFragment.this.getString(R.string.confirm), new DialogInterface.OnClickListener(){
+        alert.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){
 
             }
         });
-        alert.setNegativeButton(UserFragment.this.getString(R.string.cancel), new DialogInterface.OnClickListener(){
+        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){

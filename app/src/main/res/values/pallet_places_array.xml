@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pallet_places_array">
+        <item>JAB</item>
+        <item>Hede</item>
+        <item>Fashion Service</item>
+    </string-array>
+</resources>

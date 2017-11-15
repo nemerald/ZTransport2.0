@@ -69,4 +69,16 @@
     <string name="error_empty_fields">Något fält är tomt</string>
     <string name="not_applicable">N/A</string>
     <string name="empty">\"\"</string>
+    <string name="pallet_from">Hämtas från:</string>
+    <string name="pallet_to">Lämnas på:</string>
+    <string name="pick_no_of_pallets">Antal:</string>
+    <string name="no_of_pallets">Antal pallar</string>
+    <string name="set_no_of_pallets">Välj antal pallar</string>
+    <string name="error_not_picked_pallets">Inga pallar valda</string>
+    <string name="error_same_pickup_and_leave_place">Samma hämt- som lämnplats</string>
+    <string name="palletBalance">Pallsaldon</string>
+    <string name="palletBalanceJBL">JBL</string>
+    <string name="palletBalanceHede">Hede</string>
+    <string name="palletBalanceFashionService">Fashion Service</string>
+    <string name="palletReport">Pallrapportering</string>
 </resources>

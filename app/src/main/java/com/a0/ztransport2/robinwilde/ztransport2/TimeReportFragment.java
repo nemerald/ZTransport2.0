@@ -234,30 +234,30 @@ public class TimeReportFragment extends Fragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View alertCustomLayout = inflater.inflate(R.layout.custom_hour_picker_pialog, null);
 
-        final NumberPicker nbHours = (NumberPicker) alertCustomLayout.findViewById(R.id.npHours);
-        final NumberPicker nbHalfHours = (NumberPicker) alertCustomLayout.findViewById(R.id.npHalfHours);
+        final NumberPicker npHours = (NumberPicker) alertCustomLayout.findViewById(R.id.npHours);
+        final NumberPicker npHalfHours = (NumberPicker) alertCustomLayout.findViewById(R.id.npHalfHours);
 
-        nbHours.setMinValue(1);
-        nbHours.setMaxValue(10);
-        nbHours.setWrapSelectorWheel(true);
-        nbHours.setValue(8);
+        npHours.setMinValue(1);
+        npHours.setMaxValue(10);
+        npHours.setWrapSelectorWheel(true);
+        npHours.setValue(8);
 
-        nbHalfHours.setMinValue(0);
-        nbHalfHours.setMaxValue(1);
-        nbHalfHours.setDisplayedValues( new String[] { "0", "5"} );
+        npHalfHours.setMinValue(0);
+        npHalfHours.setMaxValue(1);
+        npHalfHours.setDisplayedValues( new String[] { "0", "5"} );
 
         AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
-        alert.setTitle(TimeReportFragment.this.getString(R.string.set_hours));
+        alert.setTitle(getString(R.string.set_hours));
         alert.setView(alertCustomLayout);
         alert.setCancelable(false);
-        alert.setPositiveButton(TimeReportFragment.this.getString(R.string.confirm), new DialogInterface.OnClickListener(){
+        alert.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){
 
             }
         });
-        alert.setNegativeButton(TimeReportFragment.this.getString(R.string.cancel), new DialogInterface.OnClickListener(){
+        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){
@@ -275,13 +275,13 @@ public class TimeReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String halfHour;
-                if(nbHalfHours.getValue()>0){
+                if(npHalfHours.getValue()>0){
                     halfHour="5";
-                    tvWorkedHours.setText(String.valueOf(nbHours.getValue())+"."+halfHour);
+                    tvWorkedHours.setText(String.valueOf(npHours.getValue())+"."+halfHour);
                     hours=tvWorkedHours.getText().toString();
                 }
                 else{
-                    tvWorkedHours.setText(String.valueOf(nbHours.getValue()));
+                    tvWorkedHours.setText(String.valueOf(npHours.getValue()));
                     hours=tvWorkedHours.getText().toString();
                 }
                 dialog.dismiss();
@@ -331,17 +331,17 @@ public class TimeReportFragment extends Fragment {
         tvInputWorkDescription.setText(workDescription);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
-        alert.setTitle(TimeReportFragment.this.getString(R.string.confirm_input));
+        alert.setTitle(getString(R.string.confirm_input));
         alert.setView(alertCustomLayout);
         alert.setCancelable(false);
-        alert.setPositiveButton(TimeReportFragment.this.getString(R.string.confirm), new DialogInterface.OnClickListener(){
+        alert.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){
 
             }
         });
-        alert.setNegativeButton(TimeReportFragment.this.getString(R.string.cancel), new DialogInterface.OnClickListener(){
+        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){
