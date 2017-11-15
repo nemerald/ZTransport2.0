@@ -42,12 +42,11 @@ public class TimeReport {
         this.reportedBy = reportedBy;
         this.inputTimeStamp = inputTimeStamp;
     }
-
-    public String gettRId() {
-        return tRId;
-    }
     public void setDriverId(String driverId) {
         this.driverId = driverId;
+    }
+    public String gettRId() {
+        return tRId;
     }
     public String getYear() {
         return year;

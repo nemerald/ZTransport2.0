@@ -7,7 +7,10 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
+
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,12 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.VIBRATOR_SERVICE;
 import static android.os.VibrationEffect.DEFAULT_AMPLITUDE;
 
@@ -78,25 +79,45 @@ public class HelpMethods {
 
         return week;
     }
-    public static HashMap prepareTimeReportData(TimeReport timeReport){
-        HashMap dataMap = new HashMap();
-        dataMap.put("tRId",timeReport.gettRId());
-        dataMap.put("year",timeReport.getYear());
-        dataMap.put("month",timeReport.getMonth());
-        dataMap.put("day",timeReport.getDay());
-        dataMap.put("week",timeReport.getWeek());
-        dataMap.put("driver",timeReport.getDriver());
-        dataMap.put("driverId", timeReport.getDriverId());
-        dataMap.put("area",timeReport.getArea());
-        dataMap.put("costumer",timeReport.getCostumer());
-        dataMap.put("hours",timeReport.getHours());
-        dataMap.put("isRoute",timeReport.getIsRoute());
-        dataMap.put("workDescription",timeReport.getWorkDescription());
-        dataMap.put("changedByAdmin",timeReport.getIsChangedByAdmin());
-        dataMap.put("reportedBy",timeReport.getReportedBy());
-        dataMap.put("inputTimeStamp",timeReport.getInputTimeStamp());
+    public static JSONObject prepareReportDataObject(Object reportObject){
+        JSONObject dataJsonObject = new JSONObject();
 
-        return dataMap;
+        if(reportObject.getClass().isAssignableFrom(TimeReport.class)){
+            try{
+                dataJsonObject.put("tRId",((TimeReport) reportObject).gettRId());
+                dataJsonObject.put("year",((TimeReport) reportObject).getYear());
+                dataJsonObject.put("month",((TimeReport) reportObject).getMonth());
+                dataJsonObject.put("day",((TimeReport) reportObject).getDay());
+                dataJsonObject.put("week",((TimeReport) reportObject).getWeek());
+                dataJsonObject.put("driver",((TimeReport) reportObject).getDriver());
+                dataJsonObject.put("driverId", ((TimeReport) reportObject).getDriverId());
+                dataJsonObject.put("area",((TimeReport) reportObject).getArea());
+                dataJsonObject.put("costumer",((TimeReport) reportObject).getCostumer());
+                dataJsonObject.put("hours",((TimeReport) reportObject).getHours());
+                dataJsonObject.put("isRoute",((TimeReport) reportObject).getIsRoute());
+                dataJsonObject.put("workDescription",((TimeReport) reportObject).getWorkDescription());
+                dataJsonObject.put("changedByAdmin",((TimeReport) reportObject).getIsChangedByAdmin());
+                dataJsonObject.put("reportedBy",((TimeReport) reportObject).getReportedBy());
+                dataJsonObject.put("inputTimeStamp",((TimeReport) reportObject).getInputTimeStamp());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if(reportObject.getClass().isAssignableFrom(PalletReport.class)){
+            try{
+                dataJsonObject.put("pRId",((PalletReport) reportObject).getpRId());
+                dataJsonObject.put("inputTimeStamp",((PalletReport) reportObject).getInputTimeStamp());
+                dataJsonObject.put("driver",((PalletReport) reportObject).getDriver());
+                dataJsonObject.put("driverId",((PalletReport) reportObject).getDriverId());
+                dataJsonObject.put("fromPlace",((PalletReport) reportObject).getFromPlace());
+                dataJsonObject.put("toPlace",((PalletReport) reportObject).getToPlace());
+                dataJsonObject.put("noOfpallets", ((PalletReport) reportObject).getNoOfpallets());
+                dataJsonObject.put("reportedBy",((PalletReport) reportObject).getReportedBy());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return dataJsonObject;
     }
     public static String setFirstCharacterToUpperCase(String string){
         String stringWithUpperCase = "";

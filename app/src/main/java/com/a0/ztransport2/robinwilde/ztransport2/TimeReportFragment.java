@@ -32,7 +32,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
@@ -50,6 +49,9 @@ public class TimeReportFragment extends Fragment {
 
     String costumer, area, workDescription, hours;
     int route;
+
+    //TODO ta bort vid senare tillfälle.
+    String timeReportUrl = "https://prod-13.northeurope.logic.azure.com:443/workflows/d4b4fdd85821419aa59715ff02484a71/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=u7zvS6QsLtB7z0J7pW65E-vbFbNhHeY6rfMeMPtJqTo";
 
     @Override
     public void onAttach(Context context) {
@@ -360,9 +362,9 @@ public class TimeReportFragment extends Fragment {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap data = (HelpMethods.prepareTimeReportData(createTimeReportFromData()));
+                JSONObject data = (HelpMethods.prepareReportDataObject(createTimeReportFromUserInput()));
                 //TODO Control return message and give feedback to user
-                DbHelperMethods.postRequester(getActivity(), data);
+                DbHelperMethods.postRequester(getActivity(), data, timeReportUrl);
                 setDefaultState();
                 dialog.dismiss();
             }
@@ -374,7 +376,7 @@ public class TimeReportFragment extends Fragment {
             }
         });
     }
-    private TimeReport createTimeReportFromData(){
+    private TimeReport createTimeReportFromUserInput(){
         ArrayList<String> yearMonthDayWeek = HelpMethods.splitYearMonthDay(tvPickedDate.getText().toString());
         String year = yearMonthDayWeek.get(0);
         String month = yearMonthDayWeek.get(1);

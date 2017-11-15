@@ -58,8 +58,8 @@
     <string name="picked_hours">Timmar:</string>
     <string name="error_network_error">Nätverksfel. Var god kontrollera nätverksanslutning och försök igen.</string>
     <string name="error_network_error_bad_request">Nätverksfel. Servern svarar inte. Var god försök senare.</string>
-    <string name="time_report_success">Tidrapport skickad.</string>
-    <string name="time_report_failed">Tidrapportering misslyckades. Försök igen.</string>
+    <string name="report_success">Rapportering lyckad.</string>
+    <string name="report_failed">Rapportering misslyckades. Försök igen.</string>
     <string name="error_no_user_info_changed">Inga uppgifter ändrade.</string>
     <string name="confirm_user_change_input">Bekräfta förändringar</string>
     <string name="input_new_phone_number">Nummer:</string>

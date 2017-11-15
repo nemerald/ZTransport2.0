@@ -15,10 +15,9 @@ public class PalletReport {
     private String noOfpallets;
     private String reportedBy;
 
-    public PalletReport(String pRId, String inputTimeStamp, String driver, String driverId,
+    public PalletReport(String inputTimeStamp, String driver, String driverId,
                         String fromPlace, String toPlace, String noOfpallets, String reportedBy) {
 
-        this.pRId = pRId;
         this.inputTimeStamp = inputTimeStamp;
         this.driver = driver;
         this.driverId = driverId;

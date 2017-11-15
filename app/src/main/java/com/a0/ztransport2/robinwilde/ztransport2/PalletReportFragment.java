@@ -3,6 +3,7 @@ package com.a0.ztransport2.robinwilde.ztransport2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -29,6 +33,9 @@ public class PalletReportFragment extends Fragment {
     Spinner spGetPalletsFromPicker, spLeavePalletsToPicker;
     TextView tvGetPalletsFrom, tvLeavePalletsTo, tvNoOfPallets, tvPalletBalanceJBL, tvPalletBalanceHede, tvPalletBalanceFashionService;
     Button bPickNoOfPallets, bConfirmAndSendPalletReport;
+
+    //TODO ta bort vid senare tillfälle.
+    String palletReportUrl = "https://prod-14.northeurope.logic.azure.com:443/workflows/23eb5ee9035d42dba41a6eaa58c14734/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1_phvvdrr-NVB8pS1EWzoThkZyvg1MpcVzu9KtISod4";
 
     @Override
     public void onAttach(Context context) {
@@ -149,10 +156,13 @@ public class PalletReportFragment extends Fragment {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
-                //HashMap data = (HelpMethods.preparePalletReportData(createPalletReportFromData()));
-                //TODO Control return message and give feedback to user
-                //DbHelperMethods.postRequester(getActivity(), data);
+
+                String fromPlace = tvPalletsFromPlace.getText().toString();
+                String toPlace = tvPalletsToPlace.getText().toString();
+                String noOfPallets = tvNoOfPickedPallets.getText().toString();
+
+                JSONObject data = (HelpMethods.prepareReportDataObject(createPalletReportFromUserInput(fromPlace, toPlace, noOfPallets)));
+                DbHelperMethods.postRequester(getActivity(), data, palletReportUrl);
                 setDefaultState();
                 dialog.dismiss();
             }
@@ -163,6 +173,19 @@ public class PalletReportFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+    private PalletReport createPalletReportFromUserInput(String fromPlace, String toPlace, String noOfPallets) {
+
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(
+                getString(R.string.shared_preference_name), Context.MODE_PRIVATE);
+
+        String driverName = sharedPreferences.getString(getString(R.string.shared_prefs_user_name), null);
+        String driverId = sharedPreferences.getString(getString(R.string.shared_prefs_user_id), null);
+
+        PalletReport palletReport = new PalletReport(HelpMethods.getTimeStamp(), driverName, driverId,
+                                                     fromPlace, toPlace, noOfPallets, driverName);
+
+        return palletReport;
     }
 
     private void setDefaultState() {
