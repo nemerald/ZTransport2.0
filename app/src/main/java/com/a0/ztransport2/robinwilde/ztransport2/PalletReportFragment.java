@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
@@ -25,7 +27,7 @@ public class PalletReportFragment extends Fragment {
     FragmentCommunicator mCallback;
 
     Spinner spGetPalletsFromPicker, spLeavePalletsToPicker;
-    TextView tvGetPalletsFrom, tvLeavePalletsTo, tvNoOfPallets;
+    TextView tvGetPalletsFrom, tvLeavePalletsTo, tvNoOfPallets, tvPalletBalanceJBL, tvPalletBalanceHede, tvPalletBalanceFashionService;
     Button bPickNoOfPallets, bConfirmAndSendPalletReport;
 
     @Override
@@ -60,8 +62,17 @@ public class PalletReportFragment extends Fragment {
         tvGetPalletsFrom = (TextView) view.findViewById(R.id.tvGetPalletFrom);
         tvLeavePalletsTo = (TextView) view.findViewById(R.id.tvLeavePalletTo);
         tvNoOfPallets = (TextView) view.findViewById(R.id.tvNoOfPallets);
+        tvPalletBalanceJBL = (TextView) view.findViewById(R.id.tvPalletBalanceJBL);
+        tvPalletBalanceHede = (TextView) view.findViewById(R.id.tvPalletBalanceHede);
+        tvPalletBalanceFashionService = (TextView) view.findViewById(R.id.tvPalletBalanceFashionService);
 
         setSpinnerValues();
+        DbHelperMethods.getRequester(getActivity(), new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                palletBalance(result);
+            }
+        });
 
         bPickNoOfPallets.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +88,25 @@ public class PalletReportFragment extends Fragment {
                 }
             }
         });
+    }
+    public interface VolleyCallback{
+        void onSuccess(JSONObject result);
+    }
+    public void palletBalance(JSONObject lastRow){
+        try {
+            String timeStamp = (String) lastRow.get("InputTimeStamp");
+            String jblBalance = (String) lastRow.get("JBLBalance");
+            String hedeBalance = (String) lastRow.get("HedeBalance");
+            String fashionServiceBalance = (String) lastRow.get("FashionServiceBalance");
+
+            tvPalletBalanceJBL.setText(jblBalance);
+            tvPalletBalanceHede.setText(hedeBalance);
+            tvPalletBalanceFashionService.setText(fashionServiceBalance);
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void showConfirmInputDialog() {
@@ -156,7 +186,6 @@ public class PalletReportFragment extends Fragment {
             return true;
         }
     }
-
     private void palletPickerDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View alertCustomLayout = inflater.inflate(R.layout.custom_pallet_picker_pialog, null);
