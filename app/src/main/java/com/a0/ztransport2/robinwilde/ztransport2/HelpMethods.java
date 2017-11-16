@@ -9,6 +9,7 @@ import android.os.Vibrator;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
 
 import org.json.JSONObject;
 
@@ -103,16 +104,28 @@ public class HelpMethods {
                 e.printStackTrace();
             }
         }
-        if(reportObject.getClass().isAssignableFrom(PalletReport.class)){
-            try{
-                dataJsonObject.put("pRId",((PalletReport) reportObject).getpRId());
-                dataJsonObject.put("inputTimeStamp",((PalletReport) reportObject).getInputTimeStamp());
-                dataJsonObject.put("driver",((PalletReport) reportObject).getDriver());
-                dataJsonObject.put("driverId",((PalletReport) reportObject).getDriverId());
-                dataJsonObject.put("fromPlace",((PalletReport) reportObject).getFromPlace());
-                dataJsonObject.put("toPlace",((PalletReport) reportObject).getToPlace());
+        if(reportObject.getClass().isAssignableFrom(PalletReport.class)) {
+            try {
+                dataJsonObject.put("pRId", ((PalletReport) reportObject).getpRId());
+                dataJsonObject.put("inputTimeStamp", ((PalletReport) reportObject).getInputTimeStamp());
+                dataJsonObject.put("driver", ((PalletReport) reportObject).getDriver());
+                dataJsonObject.put("driverId", ((PalletReport) reportObject).getDriverId());
+                dataJsonObject.put("fromPlace", ((PalletReport) reportObject).getFromPlace());
+                dataJsonObject.put("toPlace", ((PalletReport) reportObject).getToPlace());
                 dataJsonObject.put("noOfpallets", ((PalletReport) reportObject).getNoOfpallets());
-                dataJsonObject.put("reportedBy",((PalletReport) reportObject).getReportedBy());
+                dataJsonObject.put("reportedBy", ((PalletReport) reportObject).getReportedBy());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(reportObject.getClass().isAssignableFrom(User.class)){
+            try{
+                dataJsonObject.put("uId",((User) reportObject).getuId());
+                dataJsonObject.put("name",((User) reportObject).getName());
+                dataJsonObject.put("phoneNumber",((User) reportObject).getPhoneNumber());
+                dataJsonObject.put("eMail",((User) reportObject).geteMail());
+                dataJsonObject.put("isAdmin",((User) reportObject).geteMail());
+                dataJsonObject.put("hasPermissionToReport",((User) reportObject).getHasPermissionToReport());
             }catch (Exception e){
                 e.printStackTrace();
             }

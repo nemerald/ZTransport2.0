@@ -19,7 +19,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     private final String LOG_TAG = "MainActivity";
     SharedPreferences sharedPreferences;
     User user;
+
+    //TODO ta bort vid senare tillfälle.
+    String newUserUrl = "https://prod-10.northeurope.logic.azure.com:443/workflows/d6583a8f3ba7432897b6063b5609821e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hh06olZG4uQtLd1W_tmJ7q54y7hXKCcKRQa3kMsgeW8";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,11 +148,14 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         editor.putBoolean(getString(R.string.shared_prefs_is_admin), user.getIsAdmin());
         editor.commit();
 
+        JSONObject data = (HelpMethods.prepareReportDataObject(user));
+        DbHelperMethods.postRequester(this, data, newUserUrl);
         //TODO insert to database
 
         setUserDataInUserFragment();
         setSharedPrefsInTimeReportFragment();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

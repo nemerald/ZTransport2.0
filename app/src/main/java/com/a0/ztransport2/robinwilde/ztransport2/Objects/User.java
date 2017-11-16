@@ -67,7 +67,7 @@ public class User {
         return isAdmin;
     }
 
-    public boolean isHasPermissionToReport() {
+    public boolean getHasPermissionToReport() {
         return hasPermissionToReport;
     }
 
