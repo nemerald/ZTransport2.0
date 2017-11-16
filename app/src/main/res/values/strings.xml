@@ -8,6 +8,7 @@
     <string name="shared_prefs_user_phone_number">saved_user_phone_number</string>
     <string name="shared_prefs_user_email">saved_user_email</string>
     <string name="shared_prefs_is_admin">isAdmin</string>
+    <string name="shared_prefs_is_super_admin">isSuperAdmin</string>
     <string name="confirm">Ok</string>
     <string name="cancel">Avbryt</string>
     <string name="user_data_input">Ange uppgifter</string>
@@ -83,4 +84,6 @@
     <string name="palletReport">Pallrapportering</string>
     <string name="action_admin">Administration</string>
     <string name="not_authorized">Inte behörig</string>
+    <string name="error_message">Nätverksmeddelande:</string>
+    <string name="error_getting_last_row">Fel vid hämtning av pallsaldo</string>
 </resources>

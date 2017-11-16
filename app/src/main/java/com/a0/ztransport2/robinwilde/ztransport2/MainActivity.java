@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
 
     //TODO ta bort vid senare tillfälle.
     String newUserUrl = "https://prod-10.northeurope.logic.azure.com:443/workflows/d6583a8f3ba7432897b6063b5609821e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hh06olZG4uQtLd1W_tmJ7q54y7hXKCcKRQa3kMsgeW8";
-
+    String getUserAdminStatusUrl = "https://prod-07.northeurope.logic.azure.com:443/workflows/18f0b6fb8a404d669937487b37b6630a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=N2ZuR7tFwB9TEXEDzZ1oGXegqmRqZCsrLsBFo8pBFRg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     private void setSharedPrefsAndSendUserData(ArrayList userInput) {
 
         user = new User(userInput.get(0).toString(), userInput.get(1).toString(),
-                userInput.get(2).toString(), false, false);
+                userInput.get(2).toString(), false, false, false);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(getString(R.string.shared_prefs_user_id), user.getuId());
@@ -147,11 +149,11 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         editor.putString(getString(R.string.shared_prefs_user_email), user.geteMail());
         editor.putString(getString(R.string.shared_prefs_user_phone_number), user.getPhoneNumber());
         editor.putBoolean(getString(R.string.shared_prefs_is_admin), user.getIsAdmin());
+        editor.putBoolean(getString(R.string.shared_prefs_is_super_admin), user.getIsSuperAdmin());
         editor.commit();
 
         JSONObject data = (HelpMethods.prepareReportDataObject(user));
         DbHelperMethods.postRequester(this, data, newUserUrl);
-        //TODO insert to database
 
         setUserDataInUserFragment();
         setSharedPrefsInTimeReportFragment();
@@ -166,13 +168,14 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_administration:
-                if(sharedPreferences.getBoolean(getString(R.string.shared_prefs_is_admin), false)){
+
+                if(sharedPreferences.getBoolean(getString(R.string.shared_prefs_is_super_admin), false)){
                     Intent adminIntentStarter = new Intent(MainActivity.this, AdminActivity.class);
                     startActivity(adminIntentStarter);
                     finishAffinity();
                 }
                 else{
-                    Toast.makeText(this, getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
+                    controlIfIsAdminStatusHasChanged();
                 }
         }
         int id = item.getItemId();
@@ -196,6 +199,47 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void controlIfIsAdminStatusHasChanged() {
+        DbHelperMethods.getRequester(this, getUserAdminStatusUrl, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                checkIfAdminStatusHasChanged(response);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, getString(R.string.error_network_error)+" "+message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkIfAdminStatusHasChanged(JSONObject response) {
+        try {
+            JSONArray employeeArray = response.getJSONArray("employeeArray");
+            for(int i=0;i<employeeArray.length();i++){
+                JSONObject tempObj = employeeArray.getJSONObject(i);
+                String tempId = sharedPreferences.getString(getString(R.string.shared_prefs_user_id), null);
+                if(tempObj.getString("uId").equals(tempId)){
+                    boolean tempBool = tempObj.getBoolean("isAdmin");
+                    if(tempBool){
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean(getString(R.string.shared_prefs_is_admin), true);
+                        editor.commit();
+
+                        Intent adminIntentStarter = new Intent(MainActivity.this, AdminActivity.class);
+                        startActivity(adminIntentStarter);
+                        finishAffinity();
+                    }else{
+                        Toast.makeText(this, getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void setUserDataInUserFragment() {
         UserFragment fragment = (UserFragment) adapter.getFragment(0);

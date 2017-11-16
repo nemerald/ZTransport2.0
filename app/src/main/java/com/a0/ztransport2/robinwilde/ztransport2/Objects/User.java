@@ -12,17 +12,20 @@ public class User {
     private String phoneNumber;
     private String eMail;
     private boolean isAdmin;
+    private boolean isSuperAdmin;
     private boolean hasPermissionToReport;
 
     public User(){
 
     }
 
-    public User(String name, String phoneNumber, String eMail, boolean isAdmin, boolean hasPermissionToReport){
+    public User(String name, String phoneNumber, String eMail, boolean isAdmin, boolean isSuperAdmin, boolean hasPermissionToReport){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
         this.isAdmin = isAdmin;
+        this.isSuperAdmin=isSuperAdmin;
+
         this.hasPermissionToReport = hasPermissionToReport;
 
     }
@@ -65,6 +68,10 @@ public class User {
 
     public Boolean getIsAdmin() {
         return isAdmin;
+    }
+
+    public boolean getIsSuperAdmin() {
+        return isSuperAdmin;
     }
 
     public boolean getHasPermissionToReport() {

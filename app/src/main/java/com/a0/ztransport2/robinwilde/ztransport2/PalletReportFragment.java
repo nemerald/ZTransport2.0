@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class PalletReportFragment extends Fragment {
 
     //TODO ta bort vid senare tillfälle.
     String palletReportUrl = "https://prod-14.northeurope.logic.azure.com:443/workflows/23eb5ee9035d42dba41a6eaa58c14734/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1_phvvdrr-NVB8pS1EWzoThkZyvg1MpcVzu9KtISod4";
+    String getPalletBalanceUrl = "https://prod-15.northeurope.logic.azure.com:443/workflows/6533211b3671489e993edb348f13c3c4/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=F24liE1532lDaexqEG8neoK_QVQIo4fMfctwg80B5pg";
 
     @Override
     public void onAttach(Context context) {
@@ -74,10 +77,20 @@ public class PalletReportFragment extends Fragment {
         tvPalletBalanceFashionService = (TextView) view.findViewById(R.id.tvPalletBalanceFashionService);
 
         setSpinnerValues();
-        DbHelperMethods.getRequester(getActivity(), new VolleyCallback() {
+        DbHelperMethods.getRequester(getActivity(), getPalletBalanceUrl, new VolleyCallback() {
             @Override
-            public void onSuccess(JSONObject result) {
-                palletBalance(result);
+            public void onSuccess(JSONObject responseObject) {
+                JSONObject lastRow = getLastRowFromResult(responseObject);
+                if(lastRow==null){
+                    Toast.makeText(getActivity(), getString(R.string.error_getting_last_row), Toast.LENGTH_SHORT).show();
+                }else{
+                    palletBalance(lastRow);
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getActivity(), getString(R.string.error_message)+" "+ message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -96,9 +109,19 @@ public class PalletReportFragment extends Fragment {
             }
         });
     }
-    public interface VolleyCallback{
-        void onSuccess(JSONObject result);
+
+    private JSONObject getLastRowFromResult(JSONObject responseObject) {
+        JSONObject lastRow = null;
+        JSONArray palletArray = null;
+        try {
+            palletArray = responseObject.getJSONArray("palletArray");
+            lastRow = palletArray.getJSONObject(palletArray.length()-1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return lastRow;
     }
+
     public void palletBalance(JSONObject lastRow){
         try {
             String timeStamp = (String) lastRow.get("InputTimeStamp");
