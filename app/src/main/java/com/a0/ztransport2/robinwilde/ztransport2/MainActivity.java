@@ -3,6 +3,7 @@ package com.a0.ztransport2.robinwilde.ztransport2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,12 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
 
 import org.json.JSONObject;
@@ -155,9 +156,25 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         setUserDataInUserFragment();
         setSharedPrefsInTimeReportFragment();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.admin_menu_setup, menu);
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_administration:
+                if(sharedPreferences.getBoolean(getString(R.string.shared_prefs_is_admin), false)){
+                    Intent adminIntentStarter = new Intent(MainActivity.this, AdminActivity.class);
+                    startActivity(adminIntentStarter);
+                    finishAffinity();
+                }
+                else{
+                    Toast.makeText(this, getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
+                }
+        }
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
             int position = tabLayout.getSelectedTabPosition();

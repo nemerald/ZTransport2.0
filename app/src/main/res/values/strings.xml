@@ -81,4 +81,6 @@
     <string name="palletBalanceHede">Hede</string>
     <string name="palletBalanceFashionService">Fashion Service</string>
     <string name="palletReport">Pallrapportering</string>
+    <string name="action_admin">Administration</string>
+    <string name="not_authorized">Inte behörig</string>
 </resources>
