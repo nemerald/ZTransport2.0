@@ -16,15 +16,35 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <TextView
+            <CheckBox
+                android:id="@+id/cbStartPalletReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/palletBalance"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
+                android:checked="false"
+                android:text="@string/start_pallet_report"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/border_top">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/palletBalance"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

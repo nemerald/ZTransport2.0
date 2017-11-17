@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 public class PalletReportFragment extends Fragment {
     FragmentCommunicator mCallback;
 
+    CheckBox cbStartPalletReport;
     Spinner spGetPalletsFromPicker, spLeavePalletsToPicker;
     TextView tvGetPalletsFrom, tvLeavePalletsTo, tvNoOfPallets, tvPalletBalanceJBL, tvPalletBalanceHede, tvPalletBalanceFashionService;
     Button bPickNoOfPallets, bConfirmAndSendPalletReport;
@@ -65,6 +67,7 @@ public class PalletReportFragment extends Fragment {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        cbStartPalletReport = (CheckBox) view.findViewById(R.id.cbStartPalletReport);
         spGetPalletsFromPicker = (Spinner) view.findViewById(R.id.spGetPalletsFromPicker);
         spLeavePalletsToPicker = (Spinner) view.findViewById(R.id.spLeavePalletsToPicker);
         bPickNoOfPallets = (Button) view.findViewById(R.id.bPickNoOfPallets);
@@ -76,21 +79,38 @@ public class PalletReportFragment extends Fragment {
         tvPalletBalanceHede = (TextView) view.findViewById(R.id.tvPalletBalanceHede);
         tvPalletBalanceFashionService = (TextView) view.findViewById(R.id.tvPalletBalanceFashionService);
 
-        setSpinnerValues();
-        DbHelperMethods.getRequester(getActivity(), getPalletBalanceUrl, null, new VolleyCallback() {
-            @Override
-            public void onSuccess(JSONObject responseObject) {
-                JSONObject lastRow = getLastRowFromResult(responseObject);
-                if(lastRow==null){
-                    Toast.makeText(getActivity(), getString(R.string.error_getting_last_row), Toast.LENGTH_SHORT).show();
-                }else{
-                    palletBalance(lastRow);
-                }
-            }
 
+        setDefaultState();
+
+        cbStartPalletReport.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(String message) {
-                Toast.makeText(getActivity(), getString(R.string.error_message)+" "+ message, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                if(cbStartPalletReport.isChecked()){
+                    spGetPalletsFromPicker.setEnabled(true);
+                    spLeavePalletsToPicker.setEnabled(true);
+                    bConfirmAndSendPalletReport.setEnabled(true);
+                    bPickNoOfPallets.setEnabled(true);
+                    setSpinnerValues();
+                    DbHelperMethods.getRequester(getActivity(), getPalletBalanceUrl, null, new VolleyCallback() {
+                        @Override
+                        public void onSuccess(JSONObject responseObject) {
+                            JSONObject lastRow = getLastRowFromResult(responseObject);
+                            if(lastRow==null){
+                                Toast.makeText(getActivity(), getString(R.string.error_getting_last_row), Toast.LENGTH_SHORT).show();
+                            }else{
+                                palletBalance(lastRow);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(getActivity(), getString(R.string.error_message)+" "+ message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else{
+                    setDefaultState();
+                }
             }
         });
 
@@ -212,6 +232,11 @@ public class PalletReportFragment extends Fragment {
     }
 
     private void setDefaultState() {
+        cbStartPalletReport.setChecked(false);
+        spGetPalletsFromPicker.setEnabled(false);
+        spLeavePalletsToPicker.setEnabled(false);
+        bConfirmAndSendPalletReport.setEnabled(false);
+        bPickNoOfPallets.setEnabled(false);
         spGetPalletsFromPicker.setSelection(0);
         spLeavePalletsToPicker.setSelection(0);
         tvNoOfPallets.setText("");
