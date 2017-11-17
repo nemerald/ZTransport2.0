@@ -96,4 +96,6 @@
     <string name="error_control_with_admin">Kontrollera uppgifter med administratör</string>
     <string name="new_user_success">Välkommen!</string>
     <string name="start_pallet_report">Påbörja pallrapportering</string>
+    <string name="time_reports_logg">Logg - Tidrapporter</string>
+    <string name="pallet_reports_logg">Logg - Pallrapportering</string>
 </resources>
