@@ -52,10 +52,14 @@ public class DbHelperMethods {
                 if(error==null){
                     Toast.makeText(context, context.getString(R.string.error_network_error), Toast.LENGTH_SHORT).show();
                 }
+                else if(error.networkResponse==null){
+                    Toast.makeText(context, context.getString(R.string.error_control_with_admin), Toast.LENGTH_SHORT).show();
+                }
                 else if(error!= null && error.networkResponse.statusCode==400) {
                     Toast.makeText(context,
                             context.getString(R.string.error_network_error_bad_request), Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else{
                     Toast.makeText(context,
                             String.valueOf(error.networkResponse.statusCode), Toast.LENGTH_SHORT).show();
                 }
@@ -66,10 +70,10 @@ public class DbHelperMethods {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
 
     }
-    public static void getRequester(final Context context, String url, final VolleyCallback listener){
+    public static void getRequester(final Context context, String url, JSONObject data, final VolleyCallback listener){
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, null, new Response.Listener<JSONObject>() {
+                url, data, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {

@@ -124,7 +124,8 @@ public class HelpMethods {
                 dataJsonObject.put("name",((User) reportObject).getName());
                 dataJsonObject.put("phoneNumber",((User) reportObject).getPhoneNumber());
                 dataJsonObject.put("eMail",((User) reportObject).geteMail());
-                dataJsonObject.put("isAdmin",((User) reportObject).geteMail());
+                dataJsonObject.put("isAdmin",((User) reportObject).getIsAdmin());
+                dataJsonObject.put("isSuperAdmin",((User) reportObject).getIsSuperAdmin());
                 dataJsonObject.put("hasPermissionToReport",((User) reportObject).getHasPermissionToReport());
             }catch (Exception e){
                 e.printStackTrace();

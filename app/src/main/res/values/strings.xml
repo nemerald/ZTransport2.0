@@ -86,4 +86,12 @@
     <string name="not_authorized">Inte behörig</string>
     <string name="error_message">Nätverksmeddelande:</string>
     <string name="error_getting_last_row">Fel vid hämtning av pallsaldo</string>
+    <string name="tab_title_employees">Anställda</string>
+    <string name="tab_title_admin_report_view">Rapporter</string>
+    <string name="tab_title_admin_generate_report">Skapa rapport</string>
+    <string name="action_main_menu">Hem</string>
+    <string name="pin_code">Pinkod</string>
+    <string name="new_user_data_input">Ny användare</string>
+    <string name="error_input_no_match">Uppgifterna stämmer inte</string>
+    <string name="error_control_with_admin">Kontrollera uppgifter med administratör</string>
 </resources>

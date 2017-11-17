@@ -24,7 +24,7 @@ public class ExampleUnitTest {
     }
     @Test
     public void testUser(){
-        User user = new User("Robin", "0739163401", "robin_wilde@hotmail.com", true, true);
+        User user = new User("Robin", "0739163401", "robin_wilde@hotmail.com", true, true, true);
         String iUser = user.toString();
     }
     @Test

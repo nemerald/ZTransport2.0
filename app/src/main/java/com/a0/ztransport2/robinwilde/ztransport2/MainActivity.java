@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     //TODO ta bort vid senare tillfälle.
     String newUserUrl = "https://prod-10.northeurope.logic.azure.com:443/workflows/d6583a8f3ba7432897b6063b5609821e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hh06olZG4uQtLd1W_tmJ7q54y7hXKCcKRQa3kMsgeW8";
     String getUserAdminStatusUrl = "https://prod-07.northeurope.logic.azure.com:443/workflows/18f0b6fb8a404d669937487b37b6630a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=N2ZuR7tFwB9TEXEDzZ1oGXegqmRqZCsrLsBFo8pBFRg";
+    String checkIfNewUserIsValidUrl="https://prod-13.northeurope.logic.azure.com:443/workflows/48562dd612944dc09e0290871d4fe273/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=jEej9NkRKbTizRFrZ0Ep7m7Wk_GnZqQSGY2S3ZU0QWg";
+    String sendNewUserErrorWarningUrl = "https://prod-09.northeurope.logic.azure.com:443/workflows/fd26e84d7a4040edb3aeb987f0cb95e0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=_9AEqNINnoDXTXySr54qEk8Sii394otrqS7q6sKWmlc";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         setSupportActionBar(toolbar);
 
         ArrayList<String> tabNames = new ArrayList<>();
-        tabNames.add(MainActivity.this.getString(R.string.tab_title_user));
-        tabNames.add(MainActivity.this.getString(R.string.tab_title_time_report));
-        tabNames.add(MainActivity.this.getString(R.string.tab_title_pallet_report));
+        tabNames.add(getString(R.string.tab_title_user));
+        tabNames.add(getString(R.string.tab_title_time_report));
+        tabNames.add(getString(R.string.tab_title_pallet_report));
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -67,16 +69,121 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         viewPager.setOffscreenPageLimit(2);
 
         if(!HelpMethods.ifSharedPrefsHoldsData(this)){
-            requestUserDataDialog();
+            newUserGateDialog();
         }
     }
-    private void requestUserDataDialog() {
+
+    private void newUserGateDialog() {
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View alertCustomLayout = inflater.inflate(R.layout.custom_new_user_gate_dialog, null);
+
+        final EditText etNewUserMailAdress = (EditText) alertCustomLayout.findViewById(R.id.etNewUserMailAdress);
+        final EditText etPinCode = (EditText) alertCustomLayout.findViewById(R.id.etPinCode);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
+        alert.setTitle(getString(R.string.new_user_data_input));
+        alert.setView(alertCustomLayout);
+        alert.setCancelable(false);
+        alert.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+
+            }
+        });
+        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+
+            }
+        });
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+
+        int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = dialog.findViewById(titleDividerId);
+        if (titleDivider != null)
+            titleDivider.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.white));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etNewUserMailAdress.getText().toString()) ||
+                        HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etPinCode.getText().toString())){
+                    vibrate(MainActivity.this, getString(R.string.error_vibrate));
+                    Toast.makeText(MainActivity.this, getString(R.string.error_no_input_from_user), Toast.LENGTH_LONG).show();
+                }
+                else if(!HelpMethods.isEmailValid(etNewUserMailAdress.getText().toString().trim())){
+                    vibrate(MainActivity.this, getString(R.string.error_vibrate));
+                    Toast.makeText(MainActivity.this, getString(R.string.error_not_correct_email), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    final JSONObject newUserData = new JSONObject();
+                    try{
+                        newUserData.put("newUserEmail", etNewUserMailAdress.getText().toString().trim());
+                        newUserData.put("newUserPinCode", etPinCode.getText().toString().trim());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    DbHelperMethods.getRequester(MainActivity.this, checkIfNewUserIsValidUrl, newUserData, new VolleyCallback() {
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            try {
+                                JSONArray newUserArray = response.getJSONArray("newUserArray");
+                                for(int i=0;i<newUserArray.length();i++){
+                                    JSONObject tempObj = new JSONObject();
+                                    tempObj = newUserArray.getJSONObject(i);
+                                    if(tempObj.getString("newUserMailAdress").equals(etNewUserMailAdress.getText().toString().trim()) &&
+                                            tempObj.getString("newUserPinCode").equals(etPinCode.getText().toString().trim())){
+                                        boolean isAdmin = tempObj.getBoolean("newUserIsAdmin");
+                                        boolean isSuperAdmin = tempObj.getBoolean("newUserIsSuperAdmin");
+                                        boolean hasPermissionToReport = tempObj.getBoolean("newUserHasPermissionToReport");
+                                        requestUserDataDialog(etNewUserMailAdress.getText().toString().trim(), isAdmin, isSuperAdmin, hasPermissionToReport);
+                                        dialog.dismiss();
+                                        break;
+                                    }
+                                    else{
+                                        Toast.makeText(MainActivity.this, getString(R.string.error_input_no_match), Toast.LENGTH_SHORT).show();
+
+                                        DbHelperMethods.postRequester(MainActivity.this, newUserData, sendNewUserErrorWarningUrl);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(MainActivity.this, getString(R.string.error_network_error)+" "+message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            }
+        });
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.finishAffinity();
+
+            }
+        });
+
+
+    }
+
+    private void requestUserDataDialog(String userEmail, final boolean isAdmin, final boolean isSuperAdmin, final boolean hasPermissionToReport) {
         LayoutInflater inflater = this.getLayoutInflater();
         View alertCustomLayout = inflater.inflate(R.layout.custom_ask_user_to_input_user_data_dialog, null);
 
         final EditText etUserName = (EditText) alertCustomLayout.findViewById(R.id.etUserName);
         final EditText etEmail = (EditText) alertCustomLayout.findViewById(R.id.etEmail);
         final EditText etPhoneNumber = (EditText) alertCustomLayout.findViewById(R.id.etPhoneNumber);
+
+        etEmail.setText(userEmail);
+        etEmail.setEnabled(false);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
         alert.setTitle(getString(R.string.user_data_input));
@@ -106,24 +213,24 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etUserName.getText().toString()) ||
-                        HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etEmail.getText().toString()) ||
-                        HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etPhoneNumber.getText().toString())){
+                if(HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etUserName.getText().toString().trim()) ||
+                        HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etEmail.getText().toString().trim()) ||
+                        HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etPhoneNumber.getText().toString().trim())){
                     vibrate(MainActivity.this, getString(R.string.error_vibrate));
                     Toast.makeText(MainActivity.this, getString(R.string.error_no_input_from_user), Toast.LENGTH_LONG).show();
 
                 }
-                else if(!HelpMethods.isEmailValid(etEmail.getText().toString())){
+                else if(!HelpMethods.isEmailValid(etEmail.getText().toString().trim())){
                     vibrate(MainActivity.this, getString(R.string.error_vibrate));
                     Toast.makeText(MainActivity.this, getString(R.string.error_not_correct_email), Toast.LENGTH_LONG).show();
                 }
                 else{
                     ArrayList<String> userInput = new ArrayList<>();
-                    userInput.add(etUserName.getText().toString().trim());
+                    userInput.add(HelpMethods.setFirstCharacterToUpperCase(etUserName.getText().toString().trim()));
                     userInput.add(etPhoneNumber.getText().toString().trim());
                     userInput.add(etEmail.getText().toString().trim());
                     //TODO check if user exist in Database
-                    setSharedPrefsAndSendUserData(userInput);
+                    setSharedPrefsAndSendUserData(userInput, isAdmin, isSuperAdmin, hasPermissionToReport);
 
                     dialog.dismiss();
                 }
@@ -138,10 +245,10 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
             }
         });
     }
-    private void setSharedPrefsAndSendUserData(ArrayList userInput) {
+    private void setSharedPrefsAndSendUserData(ArrayList userInput, boolean isAdmin, boolean isSuperAdmin, boolean hasPermissionToReport) {
 
         user = new User(userInput.get(0).toString(), userInput.get(1).toString(),
-                userInput.get(2).toString(), false, false, false);
+                userInput.get(2).toString(), isAdmin, isSuperAdmin, hasPermissionToReport);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(getString(R.string.shared_prefs_user_id), user.getuId());
@@ -201,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     private void controlIfIsAdminStatusHasChanged() {
-        DbHelperMethods.getRequester(this, getUserAdminStatusUrl, new VolleyCallback() {
+        DbHelperMethods.getRequester(this, getUserAdminStatusUrl, null, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 checkIfAdminStatusHasChanged(response);

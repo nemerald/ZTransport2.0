@@ -77,7 +77,7 @@ public class PalletReportFragment extends Fragment {
         tvPalletBalanceFashionService = (TextView) view.findViewById(R.id.tvPalletBalanceFashionService);
 
         setSpinnerValues();
-        DbHelperMethods.getRequester(getActivity(), getPalletBalanceUrl, new VolleyCallback() {
+        DbHelperMethods.getRequester(getActivity(), getPalletBalanceUrl, null, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject responseObject) {
                 JSONObject lastRow = getLastRowFromResult(responseObject);
@@ -290,7 +290,7 @@ public class PalletReportFragment extends Fragment {
         spLeavePalletsToPicker.setAdapter(adapterPalletsFrom);
     }
     public void onRefresh() {
-        Toast.makeText(getActivity(), "Fragment Log And Status: Refresh called.",
+        Toast.makeText(getActivity(), "Fragment Pallets: Refresh called.",
                 Toast.LENGTH_SHORT).show();
     }
 }
