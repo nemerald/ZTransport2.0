@@ -19,7 +19,7 @@ import static android.content.ContentValues.TAG;
 
 public class DbHelperMethods {
 
-    public static void postRequester(final Context context, JSONObject data, String url){
+    public static void postRequester(final Context context, final JSONObject data, String url){
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, data, new Response.Listener<JSONObject>() {
@@ -32,7 +32,12 @@ public class DbHelperMethods {
                     String responseString = (String) response.get("response");
                     String statusString = (String) response.get("status");
                     if(statusString.equals("200")){
-                        Toast.makeText(context, context.getString(R.string.report_success), Toast.LENGTH_SHORT).show();
+                        if(data.length()>7){
+                            Toast.makeText(context, context.getString(R.string.report_success), Toast.LENGTH_SHORT).show();
+                        }
+                        else if(data.length()>2){
+                            Toast.makeText(context, context.getString(R.string.new_user_success), Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else if(statusString.equals("400")){
                         Toast.makeText(context, context.getString(R.string.report_failed), Toast.LENGTH_SHORT).show();

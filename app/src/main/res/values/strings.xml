@@ -94,4 +94,5 @@
     <string name="new_user_data_input">Ny användare</string>
     <string name="error_input_no_match">Uppgifterna stämmer inte</string>
     <string name="error_control_with_admin">Kontrollera uppgifter med administratör</string>
+    <string name="new_user_success">Välkommen!</string>
 </resources>

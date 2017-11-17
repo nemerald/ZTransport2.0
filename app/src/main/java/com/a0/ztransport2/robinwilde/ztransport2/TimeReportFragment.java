@@ -364,7 +364,7 @@ public class TimeReportFragment extends Fragment {
             public void onClick(View v) {
                 JSONObject data = (HelpMethods.prepareReportDataObject(createTimeReportFromUserInput()));
                 //TODO Control return message and give feedback to user
-                DbHelperMethods.postRequester(getActivity(), data, timeReportUrl);
+                DbHelperMethods.postRequester(getContext(), data, timeReportUrl);
                 setDefaultState();
                 dialog.dismiss();
             }

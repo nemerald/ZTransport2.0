@@ -328,17 +328,26 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
                 JSONObject tempObj = employeeArray.getJSONObject(i);
                 String tempId = sharedPreferences.getString(getString(R.string.shared_prefs_user_id), null);
                 if(tempObj.getString("uId").equals(tempId)){
-                    boolean tempBool = tempObj.getBoolean("isAdmin");
-                    if(tempBool){
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(getString(R.string.shared_prefs_is_admin), true);
-                        editor.commit();
+                    boolean isUserStillValid = tempObj.getBoolean("hasPermissionToReport");
+                    if(isUserStillValid){
+                        boolean tempBool = tempObj.getBoolean("isAdmin");
+                        if(tempBool){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean(getString(R.string.shared_prefs_is_admin), true);
+                            editor.commit();
 
-                        Intent adminIntentStarter = new Intent(MainActivity.this, AdminActivity.class);
-                        startActivity(adminIntentStarter);
+                            Intent adminIntentStarter = new Intent(MainActivity.this, AdminActivity.class);
+                            startActivity(adminIntentStarter);
+                            finishAffinity();
+                        }else{
+                            Toast.makeText(this, getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else{
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
                         finishAffinity();
-                    }else{
-                        Toast.makeText(this, getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -346,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
             e.printStackTrace();
         }
     }
-
     @Override
     public void setUserDataInUserFragment() {
         UserFragment fragment = (UserFragment) adapter.getFragment(0);
