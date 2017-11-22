@@ -80,6 +80,7 @@ public class HelpMethods {
 
         return week;
     }
+
     public static JSONObject prepareReportDataObject(Object reportObject){
         JSONObject dataJsonObject = new JSONObject();
 

@@ -1,6 +1,7 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -38,6 +39,7 @@ public class PalletReportFragment extends Fragment {
     TextView tvGetPalletsFrom, tvLeavePalletsTo, tvNoOfPallets, tvPalletBalanceJBL, tvPalletBalanceHede, tvPalletBalanceFashionService;
     Button bPickNoOfPallets, bConfirmAndSendPalletReport;
 
+    ProgressDialog mProgressDialog;
     //TODO ta bort vid senare tillfälle.
     String palletReportUrl = "https://prod-14.northeurope.logic.azure.com:443/workflows/23eb5ee9035d42dba41a6eaa58c14734/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1_phvvdrr-NVB8pS1EWzoThkZyvg1MpcVzu9KtISod4";
     String getPalletBalanceUrl = "https://prod-15.northeurope.logic.azure.com:443/workflows/6533211b3671489e993edb348f13c3c4/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=F24liE1532lDaexqEG8neoK_QVQIo4fMfctwg80B5pg";
@@ -91,9 +93,16 @@ public class PalletReportFragment extends Fragment {
                     bConfirmAndSendPalletReport.setEnabled(true);
                     bPickNoOfPallets.setEnabled(true);
                     setSpinnerValues();
+
+                    mProgressDialog = new ProgressDialog(getActivity());
+                    mProgressDialog.setTitle(getString(R.string.wait));
+                    mProgressDialog.setMessage(getString(R.string.getting_pallet_balance));
+                    mProgressDialog.show();
+
                     DbHelperMethods.getRequester(getActivity(), getPalletBalanceUrl, null, new VolleyCallback() {
                         @Override
                         public void onSuccess(JSONObject responseObject) {
+                            mProgressDialog.dismiss();
                             JSONObject lastRow = getLastRowFromResult(responseObject);
                             if(lastRow==null){
                                 Toast.makeText(getActivity(), getString(R.string.error_getting_last_row), Toast.LENGTH_SHORT).show();
@@ -104,6 +113,7 @@ public class PalletReportFragment extends Fragment {
 
                         @Override
                         public void onError(String message) {
+                            mProgressDialog.dismiss();
                             Toast.makeText(getActivity(), getString(R.string.error_message)+" "+ message, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -200,12 +210,22 @@ public class PalletReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String fromPlace = tvPalletsFromPlace.getText().toString();
-                String toPlace = tvPalletsToPlace.getText().toString();
-                String noOfPallets = tvNoOfPickedPallets.getText().toString();
+                final String fromPlace = tvPalletsFromPlace.getText().toString();
+                final String toPlace = tvPalletsToPlace.getText().toString();
+                final String noOfPallets = tvNoOfPickedPallets.getText().toString();
 
                 JSONObject data = (HelpMethods.prepareReportDataObject(createPalletReportFromUserInput(fromPlace, toPlace, noOfPallets)));
-                DbHelperMethods.postRequester(getActivity(), data, palletReportUrl);
+                DbHelperMethods.postRequester(getActivity(), data, palletReportUrl, new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        Toast.makeText(getActivity(),getString(R.string.report_success), Toast.LENGTH_SHORT).show();
+                        updatePalletBalance(fromPlace, toPlace, noOfPallets);
+                    }
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 setDefaultState();
                 dialog.dismiss();
             }
@@ -217,6 +237,21 @@ public class PalletReportFragment extends Fragment {
             }
         });
     }
+
+    private void updatePalletBalance(String fromPlace, String toPlace, String noOfPallets) {
+        int newFromBalance = 0;
+        int newToBalance = 0;
+        int jblBalance = Integer.getInteger(tvPalletBalanceJBL.getText().toString());
+        int hedeBalance = Integer.getInteger(tvPalletBalanceHede.getText().toString());
+        int fsBalnce = Integer.getInteger(tvPalletBalanceFashionService.getText().toString());
+        int noOfPalletsInt = Integer.getInteger(noOfPallets);
+
+        if(fromPlace.equals(getString(R.string.palletBalanceJBL))){
+            newFromBalance = jblBalance - noOfPalletsInt;
+            tvPalletBalanceJBL.equals(String.valueOf(newFromBalance));
+        }
+    }
+
     private PalletReport createPalletReportFromUserInput(String fromPlace, String toPlace, String noOfPallets) {
 
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(

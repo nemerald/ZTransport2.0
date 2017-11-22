@@ -1,6 +1,7 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     private final String LOG_TAG = "MainActivity";
     SharedPreferences sharedPreferences;
     User user;
+    ProgressDialog mProgressDialog;
 
     //TODO ta bort vid senare tillfälle.
     String newUserUrl = "https://prod-10.northeurope.logic.azure.com:443/workflows/d6583a8f3ba7432897b6063b5609821e/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hh06olZG4uQtLd1W_tmJ7q54y7hXKCcKRQa3kMsgeW8";
@@ -126,10 +129,15 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                    mProgressDialog = new ProgressDialog(MainActivity.this);
+                    mProgressDialog.setTitle(getString(R.string.wait));
+                    mProgressDialog.setMessage(getString(R.string.check_input_is_valid));
+                    mProgressDialog.show();
                     DbHelperMethods.getRequester(MainActivity.this, checkIfNewUserIsValidUrl, newUserData, new VolleyCallback() {
                         @Override
                         public void onSuccess(JSONObject response) {
                             try {
+                                mProgressDialog.dismiss();
                                 JSONArray newUserArray = response.getJSONArray("newUserArray");
                                 for(int i=0;i<newUserArray.length();i++){
                                     JSONObject tempObj = new JSONObject();
@@ -146,7 +154,17 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
                                     else{
                                         Toast.makeText(MainActivity.this, getString(R.string.error_input_no_match), Toast.LENGTH_SHORT).show();
 
-                                        DbHelperMethods.postRequester(MainActivity.this, newUserData, sendNewUserErrorWarningUrl);
+                                        DbHelperMethods.postRequester(MainActivity.this, newUserData, sendNewUserErrorWarningUrl, new VolleyCallback() {
+                                            @Override
+                                            public void onSuccess(JSONObject result) {
+
+                                            }
+
+                                            @Override
+                                            public void onError(String message) {
+
+                                            }
+                                        });
                                     }
                                 }
                             } catch (JSONException e) {
@@ -156,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
 
                         @Override
                         public void onError(String message) {
+                            mProgressDialog.dismiss();
                             Toast.makeText(MainActivity.this, getString(R.string.error_network_error)+" "+message, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -260,7 +279,23 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         editor.commit();
 
         JSONObject data = (HelpMethods.prepareReportDataObject(user));
-        DbHelperMethods.postRequester(this, data, newUserUrl);
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setTitle(getString(R.string.wait));
+        mProgressDialog.setMessage(getString(R.string.adding_user));
+        mProgressDialog.show();
+        DbHelperMethods.postRequester(this, data, newUserUrl, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                mProgressDialog.dismiss();
+                Toast.makeText(MainActivity.this, getString(R.string.new_user_success), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String message) {
+                mProgressDialog.dismiss();
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         setUserDataInUserFragment();
         setSharedPrefsInTimeReportFragment();

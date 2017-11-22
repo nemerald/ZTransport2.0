@@ -78,7 +78,7 @@
     <string name="error_not_picked_pallets">Inga pallar valda</string>
     <string name="error_same_pickup_and_leave_place">Samma hämt- som lämnplats</string>
     <string name="palletBalance">Pallsaldon</string>
-    <string name="palletBalanceJBL">JBL</string>
+    <string name="palletBalanceJBL">JAB</string>
     <string name="palletBalanceHede">Hede</string>
     <string name="palletBalanceFashionService">Fashion Service</string>
     <string name="palletReport">Pallrapportering</string>
@@ -96,6 +96,21 @@
     <string name="error_control_with_admin">Kontrollera uppgifter med administratör</string>
     <string name="new_user_success">Välkommen!</string>
     <string name="start_pallet_report">Påbörja pallrapportering</string>
-    <string name="time_reports_logg">Logg - Tidrapporter</string>
-    <string name="pallet_reports_logg">Logg - Pallrapportering</string>
+    <string name="call_failed">Misslyckades. Försök igen senare.</string>
+    <string name="reports_logg">Logg</string>
+    <string name="filter">Filter</string>
+    <string name="type_of_report">Rapporttyp:</string>
+    <string name="report_time_interval">Tidsintervall:</string>
+    <string name="pick_month_or_week">Välj månad/vecka:</string>
+    <string name="update_report_array">Uppdatera listan</string>
+    <string name="today">Idag</string>
+    <string name="week">Vecka</string>
+    <string name="month">Månad</string>
+    <string name="pallet">Pall</string>
+    <string name="time">Tid</string>
+    <string name="wait">Vänta...</string>
+    <string name="getting_reports">Hämtar rapporter</string>
+    <string name="getting_pallet_balance">Hämtar aktuellt pallsaldo</string>
+    <string name="check_input_is_valid">Kontrollerar uppgifter</string>
+    <string name="adding_user">Lägger till användare</string>
 </resources>

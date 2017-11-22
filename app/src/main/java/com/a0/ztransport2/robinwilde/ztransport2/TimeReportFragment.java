@@ -364,9 +364,21 @@ public class TimeReportFragment extends Fragment {
             public void onClick(View v) {
                 JSONObject data = (HelpMethods.prepareReportDataObject(createTimeReportFromUserInput()));
                 //TODO Control return message and give feedback to user
-                DbHelperMethods.postRequester(getContext(), data, timeReportUrl);
-                setDefaultState();
-                dialog.dismiss();
+                DbHelperMethods.postRequester(getContext(), data, timeReportUrl, new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        Toast.makeText(getActivity(), getString(R.string.report_success), Toast.LENGTH_SHORT).show();
+                        setDefaultState();
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                        setDefaultState();
+                        dialog.dismiss();
+                    }
+                });
             }
         });
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {

@@ -19,7 +19,10 @@ import static android.content.ContentValues.TAG;
 
 public class DbHelperMethods {
 
-    public static void postRequester(final Context context, final JSONObject data, String url){
+    private static String HTTP_OK="200";
+    private static String HTTP_BAD_REQUEST="400";
+
+    public static void postRequester(final Context context, final JSONObject data, String url, final VolleyCallback listener){
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, data, new Response.Listener<JSONObject>() {
@@ -31,16 +34,11 @@ public class DbHelperMethods {
                 try {
                     String responseString = (String) response.get("response");
                     String statusString = (String) response.get("status");
-                    if(statusString.equals("200")){
-                        if(data.length()>7){
-                            Toast.makeText(context, context.getString(R.string.report_success), Toast.LENGTH_SHORT).show();
-                        }
-                        else if(data.length()>2){
-                            Toast.makeText(context, context.getString(R.string.new_user_success), Toast.LENGTH_SHORT).show();
-                        }
+                    if(statusString.equals(HTTP_OK)){
+                        listener.onSuccess(response);
                     }
-                    else if(statusString.equals("400")){
-                        Toast.makeText(context, context.getString(R.string.report_failed), Toast.LENGTH_SHORT).show();
+                    else if(statusString.equals(HTTP_BAD_REQUEST)){
+                        listener.onError(context.getString(R.string.call_failed));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -102,7 +100,12 @@ public class DbHelperMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                listener.onError(String.valueOf(error.networkResponse.statusCode));
+                if(error.networkResponse==null){
+                    listener.onError(context.getString(R.string.error_network_error));
+                }
+                else{
+                    listener.onError(String.valueOf(error.networkResponse.statusCode));
+                }
             }
         });
 
