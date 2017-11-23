@@ -200,4 +200,17 @@ public class HelpMethods {
             return day;
         }
     }
+
+    public static String getTodaysDate() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        c.set(year, month, day);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedTodaysDate = sdf.format(c.getTime());
+
+        return formattedTodaysDate;
+    }
 }

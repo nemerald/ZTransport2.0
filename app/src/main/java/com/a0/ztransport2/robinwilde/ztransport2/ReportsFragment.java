@@ -64,6 +64,9 @@ public class ReportsFragment extends Fragment {
         rbPickThisMonth = (RadioButton) view.findViewById(R.id.rbPickThisMonth);
         lvReportList = (ListView) view.findViewById(R.id.lvReportList);
 
+        rgIntervalPickerGroup.setEnabled(false);
+        rgReportPickerGroup.setEnabled(false);
+
         getReportsFromDb();
     }
 
@@ -87,6 +90,8 @@ public class ReportsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                rgIntervalPickerGroup.setEnabled(true);
+                rgReportPickerGroup.setEnabled(true);
             }
 
             @Override
@@ -100,14 +105,107 @@ public class ReportsFragment extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.rbPickTimeReport:
-                        setReportDataToList(allTimeReports);
+                        checkPickedReportTypeAndInterval();
                         break;
                     case R.id.rbPickPalletReport:
-                        setReportDataToList(allPalletReports);
+                        checkPickedReportTypeAndInterval();
                         break;
                 }
             }
         });
+        rgIntervalPickerGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.rbPickToday:
+                        checkPickedReportTypeAndInterval();
+                        break;
+                    case R.id.rbPickThisWeek:
+                        checkPickedReportTypeAndInterval();
+                        break;
+                    case R.id.rbPickThisMonth:
+                        checkPickedReportTypeAndInterval();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void checkPickedReportTypeAndInterval() {
+        if(rgReportPickerGroup.getCheckedRadioButtonId()==-1 || rgIntervalPickerGroup.getCheckedRadioButtonId()==-1){
+            lvReportList.setAdapter(null);
+        }
+        else if(rgReportPickerGroup.getCheckedRadioButtonId()==rbPickTimeReport.getId()){
+            setReportDataToList(parseIntervalFromReportList(allTimeReports));
+        }
+        else if(rgReportPickerGroup.getCheckedRadioButtonId()==rbPickPalletReport.getId()){
+            setReportDataToList(parseIntervalFromReportList(allPalletReports));
+        }
+    }
+
+    private ArrayList parseIntervalFromReportList(ArrayList reportList){
+        ArrayList parsedArrayList = new ArrayList();
+        if(reportList.size()!=0){
+            if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickToday.getId()){
+                for (Object obj: reportList) {
+                    if(obj.getClass().isAssignableFrom(TimeReport.class)){
+                        StringBuilder todaysDateBuilder = new StringBuilder();
+                        todaysDateBuilder.append(((TimeReport) obj).getYear());
+                        todaysDateBuilder.append("-");
+                        todaysDateBuilder.append(((TimeReport) obj).getMonth());
+                        todaysDateBuilder.append("-");
+                        todaysDateBuilder.append(((TimeReport) obj).getDay());
+                        String todaysDateFromObj = todaysDateBuilder.toString();
+                        String todaysDate = HelpMethods.getTodaysDate();
+                        if(todaysDateFromObj.equals(todaysDate)){
+                            parsedArrayList.add(obj);
+                        }
+                    }
+                    if(obj.getClass().isAssignableFrom(PalletReport.class)){
+
+                    }
+                }
+            }
+            if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickThisWeek.getId()){
+                for (Object obj: reportList) {
+                    if(obj.getClass().isAssignableFrom(TimeReport.class)){
+
+                    }
+                    if(obj.getClass().isAssignableFrom(PalletReport.class)){
+
+                    }
+                }
+            }
+            if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickThisMonth.getId()){
+                for (Object obj: reportList) {
+                    if(obj.getClass().isAssignableFrom(TimeReport.class)){
+
+                    }
+                    if(obj.getClass().isAssignableFrom(PalletReport.class)){
+
+                    }
+                }
+            }
+
+        }
+        return parsedArrayList;
+    }
+
+    private void setReportDataToList(ArrayList listOfReports) {
+        if(listOfReports.size()!=0){
+            if(listOfReports.get(0).getClass().isAssignableFrom(TimeReport.class)){
+                this.mTimeReportListAdapter = new TimeReportsListAdapter(getActivity(), listOfReports);
+                lvReportList.setAdapter(mTimeReportListAdapter);
+            }
+            if(listOfReports.get(0).getClass().isAssignableFrom(PalletReport.class)){
+                this.mPalletReportListAdapter = new PalletReportsListAdapter(getActivity(), listOfReports);
+                lvReportList.setAdapter(mPalletReportListAdapter);
+            }
+        }
+        else{
+            Toast.makeText(getActivity(), getString(R.string.no_data_in_list), Toast.LENGTH_SHORT).show();
+            lvReportList.setAdapter(null);
+        }
     }
 
     private ArrayList parseJSONArray(JSONArray jsonReportsArray, Object object) {
@@ -164,17 +262,6 @@ public class ReportsFragment extends Fragment {
         }
 
         return tempArrayList;
-    }
-
-    private void setReportDataToList(ArrayList listOfReports) {
-        if(listOfReports.get(0).getClass().isAssignableFrom(TimeReport.class)){
-            this.mTimeReportListAdapter = new TimeReportsListAdapter(getActivity(), listOfReports);
-            lvReportList.setAdapter(mTimeReportListAdapter);
-        }
-        if(listOfReports.get(0).getClass().isAssignableFrom(PalletReport.class)){
-            this.mPalletReportListAdapter = new PalletReportsListAdapter(getActivity(), listOfReports);
-            lvReportList.setAdapter(mPalletReportListAdapter);
-        }
     }
 
     public void onRefresh() {

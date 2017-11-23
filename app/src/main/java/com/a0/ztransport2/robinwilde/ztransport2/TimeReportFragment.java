@@ -1,6 +1,7 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -29,9 +30,7 @@ import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
@@ -457,15 +456,7 @@ public class TimeReportFragment extends Fragment {
         }
     }
     public void setDateFirstTime(){
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        c.set(year, month, day);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = sdf.format(c.getTime());
-        tvPickedDate.setText(formattedDate);
+        tvPickedDate.setText(HelpMethods.getTodaysDate());
     }
     public void setDateFromFragment(String date) {
         tvPickedDate.setText(date);

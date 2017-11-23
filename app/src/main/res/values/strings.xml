@@ -123,4 +123,5 @@
     <string name="reported_by">Rapport av:</string>
     <string name="yes_letter">J</string>
     <string name="no_letter">N</string>
+    <string name="no_data_in_list">Inga rapporter hittade</string>
 </resources>
