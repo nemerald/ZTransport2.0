@@ -241,14 +241,34 @@ public class PalletReportFragment extends Fragment {
     private void updatePalletBalance(String fromPlace, String toPlace, String noOfPallets) {
         int newFromBalance = 0;
         int newToBalance = 0;
-        int jblBalance = Integer.getInteger(tvPalletBalanceJBL.getText().toString());
-        int hedeBalance = Integer.getInteger(tvPalletBalanceHede.getText().toString());
-        int fsBalnce = Integer.getInteger(tvPalletBalanceFashionService.getText().toString());
-        int noOfPalletsInt = Integer.getInteger(noOfPallets);
+        int jblBalance = Integer.parseInt(tvPalletBalanceJBL.getText().toString());
+        int hedeBalance = Integer.parseInt(tvPalletBalanceHede.getText().toString());
+        int fsBalnce = Integer.parseInt(tvPalletBalanceFashionService.getText().toString());
+        int noOfPalletsInt = Integer.parseInt(noOfPallets);
 
         if(fromPlace.equals(getString(R.string.palletBalanceJBL))){
             newFromBalance = jblBalance - noOfPalletsInt;
-            tvPalletBalanceJBL.equals(String.valueOf(newFromBalance));
+            tvPalletBalanceJBL.setText(String.valueOf(newFromBalance));
+        }
+        if(fromPlace.equals(getString(R.string.palletBalanceHede))){
+            newFromBalance = hedeBalance - noOfPalletsInt;
+            tvPalletBalanceHede.setText(String.valueOf(newFromBalance));
+        }
+        if(fromPlace.equals(getString(R.string.palletBalanceFashionService))){
+            newFromBalance = fsBalnce - noOfPalletsInt;
+            tvPalletBalanceFashionService.setText(String.valueOf(newFromBalance));
+        }
+        if(toPlace.equals(getString(R.string.palletBalanceJBL))){
+            newToBalance = jblBalance + noOfPalletsInt;
+            tvPalletBalanceJBL.setText(String.valueOf(newToBalance));
+        }
+        if(toPlace.equals(getString(R.string.palletBalanceHede))){
+            newToBalance = hedeBalance + noOfPalletsInt;
+            tvPalletBalanceHede.setText(String.valueOf(newToBalance));
+        }
+        if(toPlace.equals(getString(R.string.palletBalanceFashionService))){
+            newToBalance = fsBalnce + noOfPalletsInt;
+            tvPalletBalanceFashionService.setText(String.valueOf(newToBalance));
         }
     }
 
