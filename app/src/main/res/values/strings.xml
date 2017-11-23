@@ -116,6 +116,7 @@
     <string name="adding_user">Lägger till användare</string>
     <string name="from">Från</string>
     <string name="to">Till</string>
+    <string name="number">Antal</string>
     <string name="driver">Förare</string>
     <string name="input_week">Vecka:</string>
     <string name="changed">Ändrad:</string>
