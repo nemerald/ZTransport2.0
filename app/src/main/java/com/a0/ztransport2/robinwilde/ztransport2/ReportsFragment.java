@@ -179,7 +179,7 @@ public class ReportsFragment extends Fragment {
                         String palletReportYear = dateSplittedFromPalletReport.get("year").toString();
                         String palletReportMonth = dateSplittedFromPalletReport.get("month").toString();;
                         String palletReportDay = dateSplittedFromPalletReport.get("day").toString();;
-                        String palletReportDayFormatted = palletReportYear+"-"+palletReportMonth+""+palletReportDay;
+                        String palletReportDayFormatted = palletReportYear+"-"+palletReportMonth+"-"+palletReportDay;
 
                         if(palletReportDayFormatted.equals(todaysDateFormatted)){
                             parsedArrayList.add(obj);
