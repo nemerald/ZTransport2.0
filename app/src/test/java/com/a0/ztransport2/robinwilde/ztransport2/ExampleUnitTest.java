@@ -41,5 +41,9 @@ public class ExampleUnitTest {
     public void testDayTrimmer(){
         HelpMethods.trimDayStringIfStartWithZero("06");
     }
+    @Test
+    public void testTimeStampSpllitter(){
+        HelpMethods.getDateFromPalletReportTimeStamp("2017-11-20 20:14:05");
+    }
 
 }

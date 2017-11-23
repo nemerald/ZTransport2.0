@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ReportsFragment extends Fragment {
@@ -145,48 +146,88 @@ public class ReportsFragment extends Fragment {
 
     private ArrayList parseIntervalFromReportList(ArrayList reportList){
         ArrayList parsedArrayList = new ArrayList();
+        StringBuilder dateFilterBuilder;
+        String dateFilterString = "";
+        HashMap actualDateHolder = HelpMethods.getActalDateData();
+        String thisYear = actualDateHolder.get("year").toString();
+        String thisMonth = actualDateHolder.get("month").toString();
+        String thisDay = actualDateHolder.get("day").toString();
+        String thisWeek = actualDateHolder.get("week").toString();
+        String todaysDateFormatted = HelpMethods.getTodaysDate();
+
         if(reportList.size()!=0){
-            if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickToday.getId()){
-                for (Object obj: reportList) {
-                    if(obj.getClass().isAssignableFrom(TimeReport.class)){
-                        StringBuilder todaysDateBuilder = new StringBuilder();
-                        todaysDateBuilder.append(((TimeReport) obj).getYear());
-                        todaysDateBuilder.append("-");
-                        todaysDateBuilder.append(((TimeReport) obj).getMonth());
-                        todaysDateBuilder.append("-");
-                        todaysDateBuilder.append(((TimeReport) obj).getDay());
-                        String todaysDateFromObj = todaysDateBuilder.toString();
-                        String todaysDate = HelpMethods.getTodaysDate();
-                        if(todaysDateFromObj.equals(todaysDate)){
+            if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickToday.getId()) {
+
+                if (reportList.get(0).getClass().isAssignableFrom(TimeReport.class)) {
+                    for (Object obj : reportList) {
+                        dateFilterBuilder = new StringBuilder();
+                        dateFilterBuilder.append(((TimeReport) obj).getYear());
+                        dateFilterBuilder.append("-");
+                        dateFilterBuilder.append(((TimeReport) obj).getMonth());
+                        dateFilterBuilder.append("-");
+                        dateFilterBuilder.append(((TimeReport) obj).getDay());
+                        dateFilterString = dateFilterBuilder.toString();
+
+                        if (dateFilterString.equals(todaysDateFormatted)) {
                             parsedArrayList.add(obj);
                         }
                     }
-                    if(obj.getClass().isAssignableFrom(PalletReport.class)){
+                }
+                if(reportList.get(0).getClass().isAssignableFrom(PalletReport.class)){
+                    for (Object obj: reportList) {
+                        HashMap dateSplittedFromPalletReport = HelpMethods.getDateFromPalletReportTimeStamp(((PalletReport) obj).getInputTimeStamp());
+                        String palletReportYear = dateSplittedFromPalletReport.get("year").toString();
+                        String palletReportMonth = dateSplittedFromPalletReport.get("month").toString();;
+                        String palletReportDay = dateSplittedFromPalletReport.get("day").toString();;
+                        String palletReportDayFormatted = palletReportYear+"-"+palletReportMonth+""+palletReportDay;
 
+                        if(palletReportDayFormatted.equals(todaysDateFormatted)){
+                            parsedArrayList.add(obj);
+                        }
                     }
                 }
             }
+
             if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickThisWeek.getId()){
-                for (Object obj: reportList) {
-                    if(obj.getClass().isAssignableFrom(TimeReport.class)){
-
+                if(reportList.get(0).getClass().isAssignableFrom(TimeReport.class)){
+                    for (Object obj: reportList) {
+                        if(((TimeReport) obj).getYear().equals(thisYear) && ((TimeReport) obj).getWeek().equals(thisWeek)){
+                            parsedArrayList.add(obj);
+                        }
                     }
-                    if(obj.getClass().isAssignableFrom(PalletReport.class)){
+                }
+                if(reportList.get(0).getClass().isAssignableFrom(PalletReport.class)){
+                    for (Object obj: reportList) {
+                        HashMap dateSplittedFromPalletReport = HelpMethods.getDateFromPalletReportTimeStamp(((PalletReport) obj).getInputTimeStamp());
+                        String palletReportYear = dateSplittedFromPalletReport.get("year").toString();
+                        String palletReportWeek = dateSplittedFromPalletReport.get("week").toString();;
 
+                        if(palletReportYear.equals(thisYear) && palletReportWeek.equals(thisWeek)){
+                            parsedArrayList.add(obj);
+                        }
                     }
                 }
             }
             if(rgIntervalPickerGroup.getCheckedRadioButtonId()==rbPickThisMonth.getId()){
-                for (Object obj: reportList) {
-                    if(obj.getClass().isAssignableFrom(TimeReport.class)){
-
+                if(reportList.get(0).getClass().isAssignableFrom(TimeReport.class)) {
+                    for (Object obj: reportList) {
+                        if(((TimeReport) obj).getYear().equals(thisYear) && ((TimeReport) obj).getMonth().equals(thisMonth)){
+                            parsedArrayList.add(obj);
+                        }
                     }
-                    if(obj.getClass().isAssignableFrom(PalletReport.class)){
+                }
+                if(reportList.get(0).getClass().isAssignableFrom(PalletReport.class)){
+                    for (Object obj: reportList) {
+                        HashMap dateSplittedFromPalletReport = HelpMethods.getDateFromPalletReportTimeStamp(((PalletReport) obj).getInputTimeStamp());
+                        String palletReportYear = dateSplittedFromPalletReport.get("year").toString();
+                        String palletReportMonth = dateSplittedFromPalletReport.get("month").toString();;
 
+                        if(palletReportYear.equals(thisYear) && palletReportMonth.equals(thisMonth)){
+                            parsedArrayList.add(obj);
+                        }
                     }
                 }
             }
-
         }
         return parsedArrayList;
     }
