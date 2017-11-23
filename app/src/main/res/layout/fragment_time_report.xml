@@ -110,17 +110,17 @@
             android:layout_marginLeft="20dp"
             android:textStyle="bold"/>
         <RadioGroup
-            android:id="@+id/radioGroupHour"
+            android:id="@+id/rgHourPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
-            <RadioButton android:id="@+id/radioRoute"
+            <RadioButton android:id="@+id/rbRoute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_picked_route"/>
-            <RadioButton android:id="@+id/radioHours"
+            <RadioButton android:id="@+id/rbHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_picked_hours"/>

@@ -23,6 +23,8 @@ public class TimeReport {
     private String reportedBy;
     private String inputTimeStamp;
 
+    public TimeReport(){}
+
     public TimeReport(String year, String month, String day, String week, String driver,
                       String driverId, String costumer, String area, String hours, boolean isRoute,
                       String workDescription, boolean changedByAdmin, String reportedBy,
@@ -41,9 +43,6 @@ public class TimeReport {
         this.changedByAdmin = changedByAdmin;
         this.reportedBy = reportedBy;
         this.inputTimeStamp = inputTimeStamp;
-    }
-    public void setDriverId(String driverId) {
-        this.driverId = driverId;
     }
     public String gettRId() {
         return tRId;
@@ -100,6 +99,66 @@ public class TimeReport {
 
     public String getInputTimeStamp() {
         return inputTimeStamp;
+    }
+
+    public void settRId(String tRId) {
+        this.tRId = tRId;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
+    }
+
+    public void setCostumer(String costumer) {
+        this.costumer = costumer;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
+
+    public void setIsRoute(boolean route) {
+        isRoute = route;
+    }
+
+    public void setWorkDescription(String workDescription) {
+        this.workDescription = workDescription;
+    }
+
+    public void setChangedByAdmin(boolean changedByAdmin) {
+        this.changedByAdmin = changedByAdmin;
+    }
+
+    public void setReportedBy(String reportedBy) {
+        this.reportedBy = reportedBy;
+    }
+
+    public void setInputTimeStamp(String inputTimeStamp) {
+        this.inputTimeStamp = inputTimeStamp;
     }
 
     @Override

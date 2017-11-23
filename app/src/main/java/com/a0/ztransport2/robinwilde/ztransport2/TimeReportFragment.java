@@ -88,9 +88,9 @@ public class TimeReportFragment extends Fragment {
         etOtherCostumer = (EditText) view.findViewById(R.id.etOtherCustomer);
         etOtherArea = (EditText) view.findViewById(R.id.etOtherArea);
         etWorkDescription = (EditText) view.findViewById(R.id.etWorkDescription);
-        rgHourData = (RadioGroup) view.findViewById(R.id.radioGroupHour);
-        rbHour = (RadioButton) view.findViewById(R.id.radioHours);
-        rbRoute = (RadioButton) view.findViewById(R.id.radioRoute);
+        rgHourData = (RadioGroup) view.findViewById(R.id.rgHourPicker);
+        rbHour = (RadioButton) view.findViewById(R.id.rbHours);
+        rbRoute = (RadioButton) view.findViewById(R.id.rbRoute);
 
         if(!ifDateIsSet()){
             setDateFirstTime();
@@ -207,14 +207,14 @@ public class TimeReportFragment extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
 
                 switch (radioGroup.getCheckedRadioButtonId()){
-                    case R.id.radioRoute:
+                    case R.id.rbRoute:
                         if(rbRoute.isChecked()){
                             route = 1;
                             hours = "8";
                             tvWorkedHours.setText(hours);
                         }
                         break;
-                    case R.id.radioHours:
+                    case R.id.rbHours:
                         if(rbHour.isChecked()){
                             hourPickerDialog();
                             route = 0;

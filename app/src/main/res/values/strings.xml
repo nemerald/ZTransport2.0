@@ -109,8 +109,17 @@
     <string name="pallet">Pall</string>
     <string name="time">Tid</string>
     <string name="wait">Vänta...</string>
-    <string name="getting_reports">Hämtar rapporter</string>
+    <string name="getting_reports_from_server">Hämtar rapporter från server</string>
+    <string name="sorting_reports">Sorterar rapporter</string>
     <string name="getting_pallet_balance">Hämtar aktuellt pallsaldo</string>
     <string name="check_input_is_valid">Kontrollerar uppgifter</string>
     <string name="adding_user">Lägger till användare</string>
+    <string name="from">Från</string>
+    <string name="to">Till</string>
+    <string name="driver">Förare</string>
+    <string name="input_week">Vecka:</string>
+    <string name="changed">Ändrad:</string>
+    <string name="reported_by">Rapport av:</string>
+    <string name="yes_letter">J</string>
+    <string name="no_letter">N</string>
 </resources>

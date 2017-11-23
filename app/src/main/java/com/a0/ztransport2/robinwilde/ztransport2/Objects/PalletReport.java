@@ -15,6 +15,8 @@ public class PalletReport {
     private String noOfpallets;
     private String reportedBy;
 
+    public PalletReport(){}
+
     public PalletReport(String inputTimeStamp, String driver, String driverId,
                         String fromPlace, String toPlace, String noOfpallets, String reportedBy) {
 
