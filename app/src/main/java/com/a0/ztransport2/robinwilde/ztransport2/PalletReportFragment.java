@@ -165,7 +165,6 @@ public class PalletReportFragment extends Fragment {
             tvPalletBalanceHede.setText(hedeBalance);
             tvPalletBalanceFashionService.setText(fashionServiceBalance);
 
-
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -256,42 +255,30 @@ public class PalletReportFragment extends Fragment {
         int noOfPalletsInt = Integer.parseInt(noOfPallets);
 
         if(fromPlace.equals(getString(R.string.palletBalanceJBL))){
-            newFromBalance = jblBalance - noOfPalletsInt;
-            jblBalance = newFromBalance;
-            tvPalletBalanceJBL.setText(String.valueOf(newFromBalance));
+            jblBalance = jblBalance - noOfPalletsInt;
         }
         if(fromPlace.equals(getString(R.string.palletBalanceHede))){
-            newFromBalance = hedeBalance - noOfPalletsInt;
-            hedeBalance = newFromBalance;
-            tvPalletBalanceHede.setText(String.valueOf(newFromBalance));
+            hedeBalance = hedeBalance - noOfPalletsInt;
         }
         if(fromPlace.equals(getString(R.string.palletBalanceFashionService))){
-            newFromBalance = fsBalance - noOfPalletsInt;
-            fsBalance = newFromBalance;
-            tvPalletBalanceFashionService.setText(String.valueOf(newFromBalance));
+            fsBalance = fsBalance - noOfPalletsInt;
         }
         if(toPlace.equals(getString(R.string.palletBalanceJBL))){
-            newToBalance = jblBalance + noOfPalletsInt;
-            jblBalance = newToBalance;
-            tvPalletBalanceJBL.setText(String.valueOf(newToBalance));
+            jblBalance = jblBalance + noOfPalletsInt;
         }
         if(toPlace.equals(getString(R.string.palletBalanceHede))){
-            newToBalance = hedeBalance + noOfPalletsInt;
-            hedeBalance = newToBalance;
-            tvPalletBalanceHede.setText(String.valueOf(newToBalance));
+            hedeBalance = hedeBalance + noOfPalletsInt;
         }
         if(toPlace.equals(getString(R.string.palletBalanceFashionService))){
-            newToBalance = fsBalance + noOfPalletsInt;
-            fsBalance = newToBalance;
-            tvPalletBalanceFashionService.setText(String.valueOf(newToBalance));
+            fsBalance = fsBalance + noOfPalletsInt;
         }
         sendBalanceUpdate(String.valueOf(jblBalance), String.valueOf(hedeBalance), String.valueOf(fsBalance));
     }
 
-    private void sendBalanceUpdate(String jblBalance, String hedeBalance, String fsBalance) {
+    private void sendBalanceUpdate(final String jblBalance, final String hedeBalance, final String fsBalance) {
         String timeStamp = HelpMethods.getTimeStamp();
         PalletBalanceUpdater palletBalanceUpdater = new PalletBalanceUpdater(timeStamp, jblBalance,
-                                                                             hedeBalance, fsBalance);
+                                                                             hedeBalance, fsBalance, false);
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setTitle(getString(R.string.wait));
@@ -303,6 +290,11 @@ public class PalletReportFragment extends Fragment {
                     @Override
                     public void onSuccess(JSONObject result) {
                         mProgressDialog.dismiss();
+
+                        tvPalletBalanceJBL.setText(String.valueOf(jblBalance));
+                        tvPalletBalanceHede.setText(String.valueOf(hedeBalance));
+                        tvPalletBalanceFashionService.setText(String.valueOf(fsBalance));
+
                         Toast.makeText(getActivity(), getString(R.string.pallet_balance_update_success), Toast.LENGTH_SHORT).show();
                     }
 

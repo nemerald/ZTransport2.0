@@ -260,6 +260,7 @@ public class HelpMethods {
                 dataJsonObject.put("jblbalance", ((PalletBalanceUpdater) reportObject).getJblBalance());
                 dataJsonObject.put("hedeBalance", ((PalletBalanceUpdater) reportObject).getHedeBalance());
                 dataJsonObject.put("fashionServiceBalance", ((PalletBalanceUpdater) reportObject).getFashionServiceBalance());
+                dataJsonObject.put("adminUpdate", ((PalletBalanceUpdater) reportObject).getAdminUpdate());
             }catch (Exception e){
                 e.printStackTrace();
             }

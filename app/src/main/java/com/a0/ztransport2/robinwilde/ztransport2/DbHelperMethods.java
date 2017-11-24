@@ -53,18 +53,16 @@ public class DbHelperMethods {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 if(error==null){
-                    Toast.makeText(context, context.getString(R.string.error_network_error), Toast.LENGTH_SHORT).show();
+                    listener.onError(context.getString(R.string.error_network_error));
                 }
                 else if(error.networkResponse==null){
-                    Toast.makeText(context, context.getString(R.string.error_control_with_admin), Toast.LENGTH_SHORT).show();
+                    listener.onError(context.getString(R.string.error_control_with_admin));
                 }
                 else if(error!= null && error.networkResponse.statusCode==400) {
-                    Toast.makeText(context,
-                            context.getString(R.string.error_network_error_bad_request), Toast.LENGTH_SHORT).show();
+                    listener.onError(context.getString(R.string.error_network_error_bad_request));
                 }
                 else{
-                    Toast.makeText(context,
-                            String.valueOf(error.networkResponse.statusCode), Toast.LENGTH_SHORT).show();
+                    listener.onError(context.getString(R.string.error_network_error_bad_request)+": "+String.valueOf(error.networkResponse.statusCode));
                 }
             }
         });
