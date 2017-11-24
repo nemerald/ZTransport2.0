@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletBalanceUpdater;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 
@@ -43,6 +44,7 @@ public class PalletReportFragment extends Fragment {
     //TODO ta bort vid senare tillfälle.
     String palletReportUrl = "https://prod-14.northeurope.logic.azure.com:443/workflows/23eb5ee9035d42dba41a6eaa58c14734/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1_phvvdrr-NVB8pS1EWzoThkZyvg1MpcVzu9KtISod4";
     String getPalletBalanceUrl = "https://prod-15.northeurope.logic.azure.com:443/workflows/6533211b3671489e993edb348f13c3c4/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=F24liE1532lDaexqEG8neoK_QVQIo4fMfctwg80B5pg";
+    String palletBalanceUpdaterUrl = "https://prod-01.northeurope.logic.azure.com:443/workflows/67e40f7e1daf4eeb8f111cbb37f4c9a7/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=jHvh0qp4-tfcTS81bxO5hDqbPwCcYYZZMD4nTXDAZcg";
 
     @Override
     public void onAttach(Context context) {
@@ -214,15 +216,22 @@ public class PalletReportFragment extends Fragment {
                 final String toPlace = tvPalletsToPlace.getText().toString();
                 final String noOfPallets = tvNoOfPickedPallets.getText().toString();
 
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setTitle(getString(R.string.wait));
+                mProgressDialog.setMessage(getString(R.string.sending_pallet_report));
+                mProgressDialog.show();
+
                 JSONObject data = (HelpMethods.prepareReportDataObject(createPalletReportFromUserInput(fromPlace, toPlace, noOfPallets)));
                 DbHelperMethods.postRequester(getActivity(), data, palletReportUrl, new VolleyCallback() {
                     @Override
                     public void onSuccess(JSONObject result) {
+                        mProgressDialog.dismiss();
                         Toast.makeText(getActivity(),getString(R.string.report_success), Toast.LENGTH_SHORT).show();
                         updatePalletBalance(fromPlace, toPlace, noOfPallets);
                     }
                     @Override
                     public void onError(String message) {
+                        mProgressDialog.dismiss();
                         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -243,33 +252,66 @@ public class PalletReportFragment extends Fragment {
         int newToBalance = 0;
         int jblBalance = Integer.parseInt(tvPalletBalanceJBL.getText().toString());
         int hedeBalance = Integer.parseInt(tvPalletBalanceHede.getText().toString());
-        int fsBalnce = Integer.parseInt(tvPalletBalanceFashionService.getText().toString());
+        int fsBalance = Integer.parseInt(tvPalletBalanceFashionService.getText().toString());
         int noOfPalletsInt = Integer.parseInt(noOfPallets);
 
         if(fromPlace.equals(getString(R.string.palletBalanceJBL))){
             newFromBalance = jblBalance - noOfPalletsInt;
+            jblBalance = newFromBalance;
             tvPalletBalanceJBL.setText(String.valueOf(newFromBalance));
         }
         if(fromPlace.equals(getString(R.string.palletBalanceHede))){
             newFromBalance = hedeBalance - noOfPalletsInt;
+            hedeBalance = newFromBalance;
             tvPalletBalanceHede.setText(String.valueOf(newFromBalance));
         }
         if(fromPlace.equals(getString(R.string.palletBalanceFashionService))){
-            newFromBalance = fsBalnce - noOfPalletsInt;
+            newFromBalance = fsBalance - noOfPalletsInt;
+            fsBalance = newFromBalance;
             tvPalletBalanceFashionService.setText(String.valueOf(newFromBalance));
         }
         if(toPlace.equals(getString(R.string.palletBalanceJBL))){
             newToBalance = jblBalance + noOfPalletsInt;
+            jblBalance = newToBalance;
             tvPalletBalanceJBL.setText(String.valueOf(newToBalance));
         }
         if(toPlace.equals(getString(R.string.palletBalanceHede))){
             newToBalance = hedeBalance + noOfPalletsInt;
+            hedeBalance = newToBalance;
             tvPalletBalanceHede.setText(String.valueOf(newToBalance));
         }
         if(toPlace.equals(getString(R.string.palletBalanceFashionService))){
-            newToBalance = fsBalnce + noOfPalletsInt;
+            newToBalance = fsBalance + noOfPalletsInt;
+            fsBalance = newToBalance;
             tvPalletBalanceFashionService.setText(String.valueOf(newToBalance));
         }
+        sendBalanceUpdate(String.valueOf(jblBalance), String.valueOf(hedeBalance), String.valueOf(fsBalance));
+    }
+
+    private void sendBalanceUpdate(String jblBalance, String hedeBalance, String fsBalance) {
+        String timeStamp = HelpMethods.getTimeStamp();
+        PalletBalanceUpdater palletBalanceUpdater = new PalletBalanceUpdater(timeStamp, jblBalance,
+                                                                             hedeBalance, fsBalance);
+
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setTitle(getString(R.string.wait));
+        mProgressDialog.setMessage(getString(R.string.updating_pallet_balance_on_server));
+        mProgressDialog.show();
+
+        DbHelperMethods.postRequester(getActivity(), HelpMethods.prepareReportDataObject(palletBalanceUpdater),
+                palletBalanceUpdaterUrl, new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        mProgressDialog.dismiss();
+                        Toast.makeText(getActivity(), getString(R.string.pallet_balance_update_success), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        mProgressDialog.dismiss();
+                        Toast.makeText(getActivity(), getString(R.string.pallet_balance_update_failed), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private PalletReport createPalletReportFromUserInput(String fromPlace, String toPlace, String noOfPallets) {

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletBalanceUpdater;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
@@ -253,6 +254,17 @@ public class HelpMethods {
                 e.printStackTrace();
             }
         }
+        if(reportObject.getClass().isAssignableFrom(PalletBalanceUpdater.class)){
+            try{
+                dataJsonObject.put("inputTimeStamp", ((PalletBalanceUpdater) reportObject).getInpuTimeStamp());
+                dataJsonObject.put("jblbalance", ((PalletBalanceUpdater) reportObject).getJblBalance());
+                dataJsonObject.put("hedeBalance", ((PalletBalanceUpdater) reportObject).getHedeBalance());
+                dataJsonObject.put("fashionServiceBalance", ((PalletBalanceUpdater) reportObject).getFashionServiceBalance());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         return dataJsonObject;
     }
 

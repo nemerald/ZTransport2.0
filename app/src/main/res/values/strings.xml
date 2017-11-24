@@ -124,4 +124,8 @@
     <string name="yes_letter">J</string>
     <string name="no_letter">N</string>
     <string name="no_data_in_list">Inga rapporter hittade</string>
+    <string name="sending_pallet_report">Skickar pallrapport.</string>
+    <string name="updating_pallet_balance_on_server">Uppdaterar pallsaldo på server.</string>
+    <string name="pallet_balance_update_success">Uppdatering av pallsaldo lyckades.</string>
+    <string name="pallet_balance_update_failed">Uppdatering av pallsaldo misslyckades.</string>
 </resources>
