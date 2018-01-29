@@ -80,9 +80,9 @@ public class PalletReportsListAdapter extends ArrayAdapter<PalletReport> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tvInputTimeStamp.setText(allReports.get(position).getInputTimeStamp());
-        holder.tvPrId.setText(allReports.get(position).getpRId());
-        holder.tvDriverName.setText(allReports.get(position).getDriver());
+        holder.tvInputTimeStamp.setText(allReports.get(position).getReportTimeStamp());
+        holder.tvPrId.setText(allReports.get(position).getReportId());
+        holder.tvDriverName.setText(allReports.get(position).getReportDriverName());
         holder.tvFromPlace.setText(allReports.get(position).getFromPlace());
         holder.tvToPlace.setText(allReports.get(position).getToPlace());
         holder.tvNoOfPallets.setText(allReports.get(position).getNoOfpallets());

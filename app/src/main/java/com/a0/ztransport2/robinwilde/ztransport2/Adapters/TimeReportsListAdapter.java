@@ -90,28 +90,28 @@ public class TimeReportsListAdapter extends ArrayAdapter<TimeReport> {
             holder = (ViewHolder) convertView.getTag();
         }
         //holder.driveId.setText(String.valueOf(allReports.get(position).getDriveId()));
-        holder.tvTrId.setText(allReports.get(position).gettRId());
+        holder.tvTrId.setText(allReports.get(position).getReportId());
         holder.tvYear.setText(allReports.get(position).getYear());
         holder.tvMonth.setText(allReports.get(position).getMonth());
         holder.tvDay.setText(allReports.get(position).getDay());
         holder.tvWeek.setText(allReports.get(position).getWeek());
-        holder.tvInputTimeStamp.setText(allReports.get(position).getInputTimeStamp());
-        holder.tvDriverName.setText(allReports.get(position).getDriver());
+        holder.tvInputTimeStamp.setText(allReports.get(position).getReportTimeStamp());
+        holder.tvDriverName.setText(allReports.get(position).getReportDriverName());
         holder.tvCostumer.setText(allReports.get(position).getCostumer());
         holder.tvArea.setText(allReports.get(position).getArea());
         holder.tvHours.setText(allReports.get(position).getHours());
-        if(allReports.get(position).getIsRoute()){
+        if(allReports.get(position).isRoute()){
             holder.tvIsRoute.setText("("+context.getString(R.string.yes_letter)+")");
         }else{
             holder.tvIsRoute.setText("("+context.getString(R.string.no_letter)+")");
         }
         holder.tvWorkDescription.setText(allReports.get(position).getWorkDescription());
-        if(allReports.get(position).getIsChangedByAdmin()){
+        if(allReports.get(position).isChangedByAdmin()){
             holder.tvChangedByAdmin.setText(context.getString(R.string.yes_letter));
         }else{
             holder.tvChangedByAdmin.setText(context.getString(R.string.no_letter));
         }
-        holder.tvReportedBy.setText(allReports.get(position).getReportedBy());
+        holder.tvReportedBy.setText(allReports.get(position).getReportReporterName());
         holder.pos = position;
         return convertView;
     }

@@ -68,6 +68,7 @@ public class HelpMethods {
 
         return inputTimeStamp;
     }
+
     public static String getTodaysDate() {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -80,7 +81,7 @@ public class HelpMethods {
 
         return formattedTodaysDate;
     }
-    public static HashMap getActalDateData() {
+    public static HashMap getTodaysDateInHashMap() {
         HashMap actualDateHashMap = new HashMap();
 
         final Calendar c = Calendar.getInstance(Locale.GERMANY);
@@ -208,35 +209,35 @@ public class HelpMethods {
 
         if(reportObject.getClass().isAssignableFrom(TimeReport.class)){
             try{
-                dataJsonObject.put("tRId",((TimeReport) reportObject).gettRId());
+                dataJsonObject.put("tRId",((TimeReport) reportObject).getReportId());
                 dataJsonObject.put("year",((TimeReport) reportObject).getYear());
                 dataJsonObject.put("month",((TimeReport) reportObject).getMonth());
                 dataJsonObject.put("day",((TimeReport) reportObject).getDay());
                 dataJsonObject.put("week",((TimeReport) reportObject).getWeek());
-                dataJsonObject.put("driver",((TimeReport) reportObject).getDriver());
-                dataJsonObject.put("driverId", ((TimeReport) reportObject).getDriverId());
+                dataJsonObject.put("driver",((TimeReport) reportObject).getReportDriverName());
+                dataJsonObject.put("driverId", ((TimeReport) reportObject).getReportReporterId());
                 dataJsonObject.put("area",((TimeReport) reportObject).getArea());
                 dataJsonObject.put("costumer",((TimeReport) reportObject).getCostumer());
                 dataJsonObject.put("hours",((TimeReport) reportObject).getHours());
-                dataJsonObject.put("isRoute",((TimeReport) reportObject).getIsRoute());
+                dataJsonObject.put("isRoute",((TimeReport) reportObject).isRoute());
                 dataJsonObject.put("workDescription",((TimeReport) reportObject).getWorkDescription());
-                dataJsonObject.put("changedByAdmin",((TimeReport) reportObject).getIsChangedByAdmin());
-                dataJsonObject.put("reportedBy",((TimeReport) reportObject).getReportedBy());
-                dataJsonObject.put("inputTimeStamp",((TimeReport) reportObject).getInputTimeStamp());
+                dataJsonObject.put("changedByAdmin",((TimeReport) reportObject).isChangedByAdmin());
+                dataJsonObject.put("reportedBy",((TimeReport) reportObject).getReportReporterName());
+                dataJsonObject.put("inputTimeStamp",((TimeReport) reportObject).getReportTimeStamp());
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
         if(reportObject.getClass().isAssignableFrom(PalletReport.class)) {
             try {
-                dataJsonObject.put("pRId", ((PalletReport) reportObject).getpRId());
-                dataJsonObject.put("inputTimeStamp", ((PalletReport) reportObject).getInputTimeStamp());
-                dataJsonObject.put("driver", ((PalletReport) reportObject).getDriver());
-                dataJsonObject.put("driverId", ((PalletReport) reportObject).getDriverId());
+                dataJsonObject.put("pRId", ((PalletReport) reportObject).getReportId());
+                dataJsonObject.put("inputTimeStamp", ((PalletReport) reportObject).getReportTimeStamp());
+                dataJsonObject.put("driver", ((PalletReport) reportObject).getReportDriverName());
+                dataJsonObject.put("driverId", ((PalletReport) reportObject).getReportReporterId());
                 dataJsonObject.put("fromPlace", ((PalletReport) reportObject).getFromPlace());
                 dataJsonObject.put("toPlace", ((PalletReport) reportObject).getToPlace());
                 dataJsonObject.put("noOfpallets", ((PalletReport) reportObject).getNoOfpallets());
-                dataJsonObject.put("reportedBy", ((PalletReport) reportObject).getReportedBy());
+                dataJsonObject.put("reportedBy", ((PalletReport) reportObject).getReportReporterName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -268,6 +269,12 @@ public class HelpMethods {
 
         return dataJsonObject;
     }
+    public static void clearSharedPreferences(Context context, String sharedPrefsName){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sharedPrefsName,Context.MODE_PRIVATE);
 
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+    }
 
 }

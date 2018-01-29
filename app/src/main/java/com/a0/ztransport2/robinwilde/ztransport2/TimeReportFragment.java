@@ -1,7 +1,6 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -363,6 +362,7 @@ public class TimeReportFragment extends Fragment {
             public void onClick(View v) {
                 JSONObject data = (HelpMethods.prepareReportDataObject(createTimeReportFromUserInput()));
                 //TODO Control return message and give feedback to user
+
                 DbHelperMethods.postRequester(getContext(), data, timeReportUrl, new VolleyCallback() {
                     @Override
                     public void onSuccess(JSONObject result) {
@@ -401,9 +401,8 @@ public class TimeReportFragment extends Fragment {
             isRoute=true;
         }
 
-        TimeReport timeReport = new TimeReport(year, month, day, week, driverName, driverId,
-                                                costumer, area, hours, isRoute, workDescription,
-                                                false, driverName, HelpMethods.getTimeStamp());
+        TimeReport timeReport = new TimeReport(driverId, driverName, HelpMethods.getTimeStamp(), driverId, driverName, year, month, day, week,
+                                                costumer, area, hours, isRoute, workDescription,false);
         return timeReport;
     }
     private boolean isInputFromMandatoryFields() {

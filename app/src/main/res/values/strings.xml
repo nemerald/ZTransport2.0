@@ -13,7 +13,7 @@
     <string name="cancel">Avbryt</string>
     <string name="user_data_input">Ange uppgifter</string>
     <string name="user_name">Användarnamn</string>
-    <string name="your_name">Ditt namn</string>
+    <string name="your_first_name">Ditt förnamn</string>
     <string name="email">Mailadress</string>
     <string name="phone_number">Telefonnummer</string>
     <string name="error_no_input_from_user">Du måste ange alla uppgifter</string>
@@ -78,7 +78,7 @@
     <string name="error_not_picked_pallets">Inga pallar valda</string>
     <string name="error_same_pickup_and_leave_place">Samma hämt- som lämnplats</string>
     <string name="palletBalance">Pallsaldon</string>
-    <string name="palletBalanceJBL">JAB</string>
+    <string name="palletBalanceJAB">JAB</string>
     <string name="palletBalanceHede">Hede</string>
     <string name="palletBalanceFashionService">Fashion Service</string>
     <string name="palletReport">Pallrapportering</string>
@@ -128,4 +128,14 @@
     <string name="updating_pallet_balance_on_server">Uppdaterar pallsaldo på server.</string>
     <string name="pallet_balance_update_success">Uppdatering av pallsaldo lyckades.</string>
     <string name="pallet_balance_update_failed">Uppdatering av pallsaldo misslyckades.</string>
+    <string name="balanceJAB">Saldo JAB</string>
+    <string name="input_JAB_pallet_balance">JAB</string>
+    <string name="balanceFashionService">Saldo FS</string>
+    <string name="balanceHede">Saldo Hede</string>
+    <string name="update_pallet_balance">Uppdatera pallsaldo</string>
+    <string name="admin_time_report_options">Välj åtgärd</string>
+    <string name="edit_time_report">Ändra</string>
+    <string name="delete_time_report">Ta bort</string>
+    <string name="add_new_time_report">Lägg till ny</string>
+    <string name="error_no_button_pressed">Inget val gjort</string>
 </resources>

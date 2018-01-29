@@ -22,13 +22,11 @@ import android.widget.Toast;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletBalanceUpdater;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
-import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.Report;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
@@ -254,7 +252,7 @@ public class PalletReportFragment extends Fragment {
         int fsBalance = Integer.parseInt(tvPalletBalanceFashionService.getText().toString());
         int noOfPalletsInt = Integer.parseInt(noOfPallets);
 
-        if(fromPlace.equals(getString(R.string.palletBalanceJBL))){
+        if(fromPlace.equals(getString(R.string.palletBalanceJAB))){
             jblBalance = jblBalance - noOfPalletsInt;
         }
         if(fromPlace.equals(getString(R.string.palletBalanceHede))){
@@ -263,7 +261,7 @@ public class PalletReportFragment extends Fragment {
         if(fromPlace.equals(getString(R.string.palletBalanceFashionService))){
             fsBalance = fsBalance - noOfPalletsInt;
         }
-        if(toPlace.equals(getString(R.string.palletBalanceJBL))){
+        if(toPlace.equals(getString(R.string.palletBalanceJAB))){
             jblBalance = jblBalance + noOfPalletsInt;
         }
         if(toPlace.equals(getString(R.string.palletBalanceHede))){
@@ -314,9 +312,8 @@ public class PalletReportFragment extends Fragment {
         String driverName = sharedPreferences.getString(getString(R.string.shared_prefs_user_name), null);
         String driverId = sharedPreferences.getString(getString(R.string.shared_prefs_user_id), null);
 
-        PalletReport palletReport = new PalletReport(HelpMethods.getTimeStamp(), driverName, driverId,
-                                                     fromPlace, toPlace, noOfPallets, driverName);
-
+        PalletReport palletReport = new PalletReport(driverId, driverName, HelpMethods.getTimeStamp(),
+                                                    driverName, fromPlace, toPlace, noOfPallets);
         return palletReport;
     }
 

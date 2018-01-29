@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(2);
 
+        HelpMethods.clearSharedPreferences(this, getString(R.string.shared_preference_name));
+
         if(!HelpMethods.ifSharedPrefsHoldsData(this)){
             newUserGateDialog();
         }
@@ -176,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
                         public void onError(String message) {
                             mProgressDialog.dismiss();
                             Toast.makeText(MainActivity.this, getString(R.string.error_network_error)+" "+message, Toast.LENGTH_SHORT).show();
+                            MainActivity.this.finishAffinity();
                         }
                     });
                 }
@@ -294,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
             public void onError(String message) {
                 mProgressDialog.dismiss();
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                MainActivity.this.finishAffinity();
             }
         });
 
