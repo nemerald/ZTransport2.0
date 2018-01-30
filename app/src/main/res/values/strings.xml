@@ -138,4 +138,5 @@
     <string name="delete_time_report">Ta bort</string>
     <string name="add_new_time_report">Lägg till ny</string>
     <string name="error_no_button_pressed">Inget val gjort</string>
+    <string name="create_and_send_report_file">Skapa och skicka rapportfil</string>
 </resources>
