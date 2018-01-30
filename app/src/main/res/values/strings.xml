@@ -139,4 +139,8 @@
     <string name="add_new_time_report">Lägg till ny</string>
     <string name="error_no_button_pressed">Inget val gjort</string>
     <string name="create_and_send_report_file">Skapa och skicka rapportfil</string>
+    <string name="pick_month">Välj månad</string>
+    <string name="pick_year">Välj år</string>
+    <string name="pick_report_content">Välj rapportinnehåll</string>
+    <string name="pick_week">Välj vecka</string>
 </resources>
