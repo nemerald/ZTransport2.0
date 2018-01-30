@@ -71,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(2);
 
-        HelpMethods.clearSharedPreferences(this, getString(R.string.shared_preference_name));
-
         if(!HelpMethods.ifSharedPrefsHoldsData(this)){
             newUserGateDialog();
         }

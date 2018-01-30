@@ -85,19 +85,13 @@ public class HelpMethods {
         HashMap actualDateHashMap = new HashMap();
 
         final Calendar c = Calendar.getInstance(Locale.GERMANY);
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<String> yearMonthDayWeek = splitYearMonthDay(sdf.format(c.getTime()));
 
-        String year = String.valueOf(c.get(Calendar.YEAR));
-        String month = String.valueOf(c.get(Calendar.MONTH)+1);
-        String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
-        try {
-            date = sdf.parse(getTodaysDate());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        c.setTime(date);
-        String week = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
+        String year = yearMonthDayWeek.get(0);
+        String month = yearMonthDayWeek.get(1);
+        String day = yearMonthDayWeek.get(2);
+        String week = yearMonthDayWeek.get(3);
 
         actualDateHashMap.put("year", year);
         actualDateHashMap.put("month", month);

@@ -24,8 +24,9 @@
         android:weightSum="100">
         <TextView
             android:id="@+id/tvPrId"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_weight="0"/>
         <LinearLayout
             android:orientation="vertical"

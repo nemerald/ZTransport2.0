@@ -391,7 +391,8 @@ public class TimeReportFragment extends Fragment {
         ArrayList<String> yearMonthDayWeek = HelpMethods.splitYearMonthDay(tvPickedDate.getText().toString());
         String year = yearMonthDayWeek.get(0);
         String month = yearMonthDayWeek.get(1);
-        String day = HelpMethods.trimDayStringIfStartWithZero(yearMonthDayWeek.get(2));
+        String day = yearMonthDayWeek.get(2);
+        //String day = HelpMethods.trimDayStringIfStartWithZero(yearMonthDayWeek.get(2));
         String week = yearMonthDayWeek.get(3);
         boolean isRoute;
         if(route==0){
