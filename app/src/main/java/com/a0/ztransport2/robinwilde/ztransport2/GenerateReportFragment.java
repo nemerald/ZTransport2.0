@@ -1,5 +1,6 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,8 @@ import android.support.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,8 +74,6 @@ public class GenerateReportFragment extends Fragment{
                             etOtherWeek.setEnabled(false);
 
                             spPickWeek.setSelection(0);
-                            etOtherWeek.setText(yearMonthDayWeekHashMap.get("week").toString());
-
                         }
                         break;
                     case R.id.rbMonthReport:
@@ -83,11 +84,33 @@ public class GenerateReportFragment extends Fragment{
                             bGenerateAndSendReport.setEnabled(true);
 
                             spPickMonth.setSelection(Integer.parseInt(yearMonthDayWeekHashMap.get("month").toString())-1);
-                            spPickYear.setSelection(1);
+                            spPickYear.setSelection(getYearId());
 
                         }
                         break;
                 }
+            }
+        });
+        spPickWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        etOtherWeek.setEnabled(false);
+                        etOtherWeek.setText(yearMonthDayWeekHashMap.get("week").toString());
+                        etOtherWeek.clearFocus();
+                        break;
+                    case 1:
+                        etOtherWeek.setEnabled(true);
+                        etOtherWeek.setText("");
+                        etOtherWeek.requestFocus();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -124,13 +147,31 @@ public class GenerateReportFragment extends Fragment{
 
         bGenerateAndSendReport.setEnabled(false);
     }
-
+    private int getYearId() {
+        if(yearMonthDayWeekHashMap.get("year").toString().equals("2017")){
+            return 0;
+        }
+        if(yearMonthDayWeekHashMap.get("year").toString().equals("2018")){
+            return 1;
+        }
+        if(yearMonthDayWeekHashMap.get("year").toString().equals("2019")){
+            return 2;
+        }
+        if(yearMonthDayWeekHashMap.get("year").toString().equals("2020")){
+            return 3;
+        }
+        if(yearMonthDayWeekHashMap.get("year").toString().equals("2021")){
+            return 4;
+        }
+        else{
+            return 0;
+        }
+    }
+    public void getReportArrays(ArrayList<ArrayList> reportArrays) {
+        this.reportArrays = reportArrays;
+    }
     public void onRefresh() {
         Toast.makeText(getActivity(), "Fragment Generate Reports: Refresh called.",
                 Toast.LENGTH_SHORT).show();
-    }
-
-    public void getReportArrays(ArrayList<ArrayList> reportArrays) {
-        this.reportArrays = reportArrays;
     }
 }
