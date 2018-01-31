@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
 public class TimeReportFragment extends Fragment {
-    FragmentCommunicator mCallback;
+    MainActivityFragmentCommunicator mCallback;
     String driverName;
     String driverId;
 
@@ -55,10 +55,10 @@ public class TimeReportFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mCallback = (FragmentCommunicator) context;
+            mCallback = (MainActivityFragmentCommunicator) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement FragmentCommunicator");
+                    + " must implement MainActivityFragmentCommunicator");
         }
     }
 

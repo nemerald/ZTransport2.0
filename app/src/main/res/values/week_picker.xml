@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="area_array">
+    <string-array name="week_picker">
         <item>Aktuell</item>
         <item>Annan</item>
     </string-array>

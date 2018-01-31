@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
-public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
+public class MainActivity extends AppCompatActivity implements MainActivityFragmentCommunicator {
 
     private TabsPagerAdapter adapter;
     private TabLayout tabLayout;
@@ -410,6 +409,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
             Log.i(LOG_TAG, "UserFragment is not initialized");
         }
     }
+
     @Override
     public void setSharedPrefsInTimeReportFragment() {
         TimeReportFragment fragment = (TimeReportFragment) adapter.getFragment(1);

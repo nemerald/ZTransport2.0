@@ -13,17 +13,17 @@ import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
-    FragmentCommunicator mCallback;
+    MainActivityFragmentCommunicator mCallback;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mCallback = (FragmentCommunicator) context;
+            mCallback = (MainActivityFragmentCommunicator) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement FragmentCommunicator");
+                    + " must implement MainActivityFragmentCommunicator");
         }
     }
 

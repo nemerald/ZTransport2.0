@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletBalanceUpdater;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
-import com.a0.ztransport2.robinwilde.ztransport2.Objects.Report;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +30,7 @@ import org.json.JSONObject;
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
 public class PalletReportFragment extends Fragment {
-    FragmentCommunicator mCallback;
+    MainActivityFragmentCommunicator mCallback;
 
     CheckBox cbStartPalletReport;
     Spinner spGetPalletsFromPicker, spLeavePalletsToPicker;
@@ -48,10 +47,10 @@ public class PalletReportFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mCallback = (FragmentCommunicator) context;
+            mCallback = (MainActivityFragmentCommunicator) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement FragmentCommunicator");
+                    + " must implement MainActivityFragmentCommunicator");
         }
     }
 

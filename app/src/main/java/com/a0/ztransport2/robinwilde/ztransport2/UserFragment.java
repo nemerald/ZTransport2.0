@@ -20,7 +20,7 @@ import android.widget.Toast;
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
 public class UserFragment extends Fragment {
-    FragmentCommunicator mCallback;
+    MainActivityFragmentCommunicator mCallback;
 
     EditText etUserName, etUserMail, etUserPhoneNumber;
     CheckBox cbMakeUpdateInfoPossible;
@@ -34,10 +34,10 @@ public class UserFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mCallback = (FragmentCommunicator) context;
+            mCallback = (MainActivityFragmentCommunicator) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement FragmentCommunicator");
+                    + " must implement MainActivityFragmentCommunicator");
         }
     }
 

@@ -7,12 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity implements AdminActivityFragmentCommunicator{
 
     private TabsPagerAdapterAdmin adapter;
     private TabLayout tabLayout;
@@ -74,5 +75,15 @@ public class AdminActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void sendReportArraysToGenerateReportFragment(ArrayList<ArrayList> reportArrays) {
+        GenerateReportFragment fragment = (GenerateReportFragment) adapter.getFragment(0);
+        if (fragment != null) {
+            fragment.getReportArrays(reportArrays);
+        } else {
+            Log.i(LOG_TAG, "UserFragment is not initialized");
+        }
     }
 }

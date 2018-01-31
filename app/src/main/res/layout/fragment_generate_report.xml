@@ -16,6 +16,7 @@
         android:layout_marginLeft="20dp"/>
 
     <EditText
+        android:id="@+id/etOtherWeek"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -38,8 +39,7 @@
         android:id="@+id/spReportMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:clickable="false"/>
+        android:layout_marginLeft="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,8 +51,7 @@
         android:id="@+id/spReportYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:clickable="false"/>
+        android:layout_marginLeft="20dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +66,7 @@
     </Spinner>
 
     <Button
-        android:id="@+id/bCreateReportFile"
+        android:id="@+id/bGenerateAndSendReportFile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_and_send_report_file"

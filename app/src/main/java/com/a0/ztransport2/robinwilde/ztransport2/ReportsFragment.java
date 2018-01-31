@@ -2,6 +2,7 @@ package com.a0.ztransport2.robinwilde.ztransport2;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -34,6 +35,7 @@ import java.util.HashMap;
 import java.util.Timer;
 
 public class ReportsFragment extends Fragment {
+    AdminActivityFragmentCommunicator mCallback;
 
     RadioGroup rgReportPickerGroup, rgIntervalPickerGroup;
     RadioButton rbPickPalletReport, rbPickTimeReport, rbPickToday, rbPickThisWeek, rbPickThisMonth;
@@ -52,6 +54,23 @@ public class ReportsFragment extends Fragment {
     boolean editTimeReport = false;
     boolean deleteTimeReport = false;
     boolean addNewTimeReport = false;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            mCallback = (AdminActivityFragmentCommunicator) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement MainActivityFragmentCommunicator");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback=null;
+        super.onDetach();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +112,12 @@ public class ReportsFragment extends Fragment {
                     JSONArray jsonPalletReportsArray = response.getJSONArray("palletReportArray");
                     allTimeReports = parseJSONArray(jsonTimeReportsArray, timeReportHolder);
                     allPalletReports = parseJSONArray(jsonPalletReportsArray, palletReportHolder);
+
+                    ArrayList<ArrayList> reportArray = new ArrayList<>();
+                    reportArray.add(allTimeReports);
+                    reportArray.add(allPalletReports);
+
+                    mCallback.sendReportArraysToGenerateReportFragment(reportArray);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
