@@ -2,76 +2,121 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
-        android:text="@string/pick_week"/>
-    <Spinner
-        android:id="@+id/spReportWeek"
+        android:text="@string/pick_report_interval"/>
+    <RadioGroup
+        android:id="@+id/rgReportIntervalPicker"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"/>
-
-    <EditText
-        android:id="@+id/etOtherWeek"
-        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
-        android:enabled="false"
-        android:maxLength="3"
-        android:maxLines="1"
-        android:gravity="center"
-        android:background="@drawable/textinputborder"
-        android:inputType="number"
-        android:textColor="@color/primary_text"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:text="@string/pick_year"/>
-    <Spinner
-        android:id="@+id/spReportMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:text="@string/pick_month"/>
-    <Spinner
-        android:id="@+id/spReportYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:text="@string/pick_report_content"/>
-    <Spinner
-        android:id="@+id/spReportContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp">
-    </Spinner>
-
-    <Button
-        android:id="@+id/bGenerateAndSendReportFile"
+        <RadioButton
+            android:id="@+id/rbWeekReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/week"/>
+        <RadioButton
+            android:id="@+id/rbMonthReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/month"/>
+    </RadioGroup>
+    <LinearLayout
+        android:id="@+id/IlMainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create_and_send_report_file"
-        android:textColor="@drawable/button_text_color"
-        android:background="@drawable/button"
-        android:layout_margin="5dp"
-        android:enabled="false"/>
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/llWeekReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/border_black_white_background"
+            android:layout_margin="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/pick_week"/>
+            <Spinner
+                android:id="@+id/spReportWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"/>
+            <EditText
+                android:id="@+id/etOtherWeek"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:enabled="false"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:gravity="center"
+                android:background="@drawable/textinputborder"
+                android:inputType="number"
+                android:textColor="@color/primary_text"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llMonthReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/border_black_white_background"
+            android:layout_margin="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/pick_year"/>
+            <Spinner
+                android:id="@+id/spReportYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/pick_month"/>
+            <Spinner
+                android:id="@+id/spReportMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/pick_report_content"/>
+        <Spinner
+            android:id="@+id/spReportContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp">
+        </Spinner>
+        <Button
+            android:id="@+id/bGenerateAndSendReportFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_and_send_report_file"
+            android:textColor="@drawable/button_text_color"
+            android:background="@drawable/button"
+            android:layout_margin="5dp"
+            android:enabled="false"/>
+    </LinearLayout>
 </LinearLayout>

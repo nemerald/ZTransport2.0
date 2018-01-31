@@ -143,4 +143,5 @@
     <string name="pick_year">Välj år</string>
     <string name="pick_report_content">Välj rapportinnehåll</string>
     <string name="pick_week">Välj vecka</string>
+    <string name="pick_report_interval">Välj rapportintervall</string>
 </resources>
