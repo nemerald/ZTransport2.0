@@ -58,12 +58,12 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="5dp"
                 android:enabled="false"
-                android:maxLength="3"
+                android:maxLength="2"
                 android:maxLines="1"
                 android:gravity="center"
-                android:background="@drawable/textinputborder"
                 android:inputType="number"
-                android:textColor="@color/primary_text"/>
+                android:background="@drawable/textinputborder"
+                style="@style/EditTextCustom"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/llMonthReport"

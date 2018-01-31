@@ -344,7 +344,7 @@ public class PalletReportFragment extends Fragment {
     }
     private void palletPickerDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View alertCustomLayout = inflater.inflate(R.layout.custom_pallet_picker_pialog, null);
+        View alertCustomLayout = inflater.inflate(R.layout.custom_pallet_picker_dialog, null);
 
         final NumberPicker npPallets = (NumberPicker) alertCustomLayout.findViewById(R.id.npPallets);
 

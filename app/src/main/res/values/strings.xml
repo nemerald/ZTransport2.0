@@ -144,4 +144,10 @@
     <string name="pick_report_content">Välj rapportinnehåll</string>
     <string name="pick_week">Välj vecka</string>
     <string name="pick_report_interval">Välj rapportintervall</string>
+    <string name="confirm_report_content">Välj rapportinnehåll</string>
+    <string name="error_no_week_picked">Ingen vecka vald</string>
+    <string name="confirm_report_message_week">Vill du skapa en rapport för vecka:</string>
+    <string name="confirm_report_message_month">Vill du skapa en rapport för år/månad:</string>
+    <string name="picked_report_content_message">Rapportinnehåll:</string>
+    <string name="error_picked_week_out_of_index">Vald vecka är felaktig</string>
 </resources>
