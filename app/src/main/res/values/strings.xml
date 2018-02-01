@@ -150,4 +150,14 @@
     <string name="confirm_report_message_month">Vill du skapa en rapport för år/månad:</string>
     <string name="picked_report_content_message">Rapportinnehåll:</string>
     <string name="error_picked_week_out_of_index">Vald vecka är felaktig</string>
+    <string name="year">År</string>
+    <string name="day">Dag</string>
+    <string name="costumer">Kund</string>
+    <string name="area">Område</string>
+    <string name="route">Tur</string>
+    <string name="workDescription">Beskrivning</string>
+    <string name="report_time_stamp">Tid för rapport</string>
+    <string name="write_report_success">Skapande av rapport lyckad</string>
+    <string name="write_report_failure">Skapande av rapport misslyckad</string>
+    <string name="report_is_empty_for_interval">Finns inga rapporter för valt intervall</string>
 </resources>

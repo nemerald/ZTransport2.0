@@ -1,19 +1,26 @@
 package com.a0.ztransport2.robinwilde.ztransport2;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletBalanceUpdater;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.PalletReport;
+import com.a0.ztransport2.robinwilde.ztransport2.Objects.Report;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.TimeReport;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,10 +32,25 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
+
 import static android.content.Context.VIBRATOR_SERVICE;
 import static android.os.VibrationEffect.DEFAULT_AMPLITUDE;
 
 public class HelpMethods {
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     //region Date Helpers
     public static ArrayList splitYearMonthDay(String date) {
@@ -263,6 +285,169 @@ public class HelpMethods {
 
         return dataJsonObject;
     }
+    public static ArrayList prepareWeekReportToBeParsedToExcel(String year, String week, ArrayList<TimeReport> reportsList) {
+        ArrayList parsedArrayList = new ArrayList();
+        for (TimeReport report: reportsList) {
+            if(report.getYear().equals(year) && report.getWeek().equals(week)){
+                parsedArrayList.add(report);
+            }
+        }
+        return parsedArrayList;
+    }
+    public static ArrayList prepareMonthReportToBeParsedToExcel(String year, int month, ArrayList<TimeReport> reportsList) {
+        ArrayList parsedArrayList = new ArrayList();
+        for (TimeReport report: reportsList) {
+            if(report.getYear().equals(year) && Integer.parseInt(report.getMonth()) == month){
+                parsedArrayList.add(report);
+            }
+        }
+        return parsedArrayList;
+    }
+    public static String parseArrayToExcelAndGenerateReport(Activity activity, ArrayList<TimeReport> timeReports, int weekOrMonthReportId){
+        String fnamexls="";
+        String feedbackMessage="";
+
+        if(weekOrMonthReportId==R.id.rbWeekReport){
+            fnamexls = "ZTransport_"+timeReports.get(0).getYear()+"_v"+timeReports.get(0).getWeek()+ ".xls";
+        }
+        if(weekOrMonthReportId==R.id.rbMonthReport){
+            fnamexls = "ZTransport_"+timeReports.get(0).getYear()+""+timeReports.get(0).getMonth()+ ".xls";
+        }
+        int columnCounter;
+        int rowCounter = 0;
+
+        File path = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS);
+        File file = new File(path, fnamexls);
+
+        path.mkdirs();
+
+        WorkbookSettings wbSettings = new WorkbookSettings();
+
+        wbSettings.setLocale(new Locale("en", "EN"));
+
+        verifyStoragePermissions(activity);
+
+        WritableWorkbook workbook;
+
+        try {
+            workbook = Workbook.createWorkbook(file, wbSettings);
+            WritableSheet sheet = workbook.createSheet(fnamexls, 0);
+            Label labelHeader1 = new Label(0,0, activity.getString(R.string.report_time_stamp));
+            Label labelHeader2 = new Label(1,0, activity.getString(R.string.year));
+            Label labelHeader3 = new Label(2,0, activity.getString(R.string.month));
+            Label labelHeader4 = new Label(3,0, activity.getString(R.string.day));
+            Label labelHeader5 = new Label(4,0, activity.getString(R.string.driver));
+            Label labelHeader6 = new Label(5,0, activity.getString(R.string.costumer));
+            Label labelHeader7 = new Label(6,0, activity.getString(R.string.area));
+            Label labelHeader8 = new Label(7,0, activity.getString(R.string.hours));
+            Label labelHeader9 = new Label(8,0, activity.getString(R.string.route));
+            Label labelHeader10 = new Label(9,0, activity.getString(R.string.workDescription));
+            Label labelHeader11 = new Label(10,0, activity.getString(R.string.week));
+            Label labelHeader12 = new Label(11,0, activity.getString(R.string.changed));
+
+            try {
+                sheet.addCell(labelHeader1);
+                sheet.addCell(labelHeader2);
+                sheet.addCell(labelHeader3);
+                sheet.addCell(labelHeader4);
+                sheet.addCell(labelHeader5);
+                sheet.addCell(labelHeader6);
+                sheet.addCell(labelHeader7);
+                sheet.addCell(labelHeader8);
+                sheet.addCell(labelHeader9);
+                sheet.addCell(labelHeader10);
+                sheet.addCell(labelHeader11);
+                sheet.addCell(labelHeader12);
+
+            } catch (RowsExceededException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (WriteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            rowCounter=1;
+            for (TimeReport report: timeReports){
+                columnCounter=0;
+                String isRoute="";
+                String isChangedByAdmin="";
+                Label label1 = new Label(columnCounter++, rowCounter, String.valueOf(report.getReportTimeStamp()));
+                Label label2 = new Label(columnCounter++, rowCounter, String.valueOf(report.getYear()));
+                Label label3 = new Label(columnCounter++, rowCounter, String.valueOf(report.getMonth()));
+                Label label4 = new Label(columnCounter++, rowCounter, String.valueOf(report.getDay()));
+                Label label5 = new Label(columnCounter++, rowCounter, String.valueOf(report.getReportDriverName()));
+                Label label6 = new Label(columnCounter++, rowCounter, String.valueOf(report.getCostumer()));
+                Label label7 = new Label(columnCounter++, rowCounter, String.valueOf(report.getArea()));
+                Label label8 = new Label(columnCounter++, rowCounter, String.valueOf(report.getHours()));
+                if(report.isRoute()){
+                    isRoute="Ja";
+                }
+                else{isRoute="Nej";}
+                Label label9 = new Label(columnCounter++, rowCounter, isRoute);
+                Label label10 = new Label(columnCounter++, rowCounter, String.valueOf(report.getWorkDescription()));
+                Label label11 = new Label(columnCounter++, rowCounter, String.valueOf(report.getWeek()));
+                if(report.isChangedByAdmin()){
+                    isChangedByAdmin="Ja";
+                }
+                else{isChangedByAdmin="Nej";}
+                Label label12 = new Label(columnCounter++, rowCounter, isChangedByAdmin);
+
+                try {
+                    sheet.addCell(label1);
+                    sheet.addCell(label2);
+                    sheet.addCell(label3);
+                    sheet.addCell(label4);
+                    sheet.addCell(label5);
+                    sheet.addCell(label6);
+                    sheet.addCell(label7);
+                    sheet.addCell(label8);
+                    sheet.addCell(label9);
+                    sheet.addCell(label10);
+                    sheet.addCell(label11);
+                    sheet.addCell(label12);
+
+                } catch (RowsExceededException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (WriteException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                rowCounter++;
+            }
+
+            workbook.write();
+            try {
+                workbook.close();
+            } catch (WriteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            feedbackMessage=activity.getResources().getString(R.string.write_report_success);
+            //createExcel(excelSheet);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            feedbackMessage=activity.getResources().getString(R.string.write_report_failure);
+            e.printStackTrace();
+        }
+
+        return feedbackMessage;
+    }
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
     public static void clearSharedPreferences(Context context, String sharedPrefsName){
         SharedPreferences sharedPreferences = context.getSharedPreferences(sharedPrefsName,Context.MODE_PRIVATE);
 
@@ -270,5 +455,4 @@ public class HelpMethods {
         editor.clear();
         editor.commit();
     }
-
 }
