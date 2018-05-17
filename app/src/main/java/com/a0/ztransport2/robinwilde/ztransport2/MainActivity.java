@@ -22,6 +22,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.a0.ztransport2.robinwilde.ztransport2.NotificationHelpers.MyHandler;
+import com.a0.ztransport2.robinwilde.ztransport2.NotificationHelpers.NotificationSettings;
+import com.a0.ztransport2.robinwilde.ztransport2.NotificationHelpers.RegistrationIntentService;
 import com.a0.ztransport2.robinwilde.ztransport2.Objects.User;
 
 import org.json.JSONArray;
@@ -31,8 +34,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.microsoft.windowsazure.notifications.NotificationsManager;
+import android.content.Intent;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragmentCommunicator {
+
+    public static MainActivity mainActivity;
+    public static Boolean isVisible = false;
+    private static final String TAG = "MainActivity";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private TabsPagerAdapter adapter;
     private TabLayout tabLayout;
@@ -51,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivity = this;
+        NotificationsManager.handleNotifications(this, NotificationSettings.SenderId, MyHandler.class);
+        registerWithNotificationHubs();
+
         sharedPreferences = this.getSharedPreferences(getString(R.string.shared_preference_name),Context.MODE_PRIVATE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -418,5 +438,62 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         } else {
             Log.i(LOG_TAG, "UserFragment is not initialized");
         }
+    }
+    public void registerWithNotificationHubs()
+    {
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with FCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported by Google Play Services.");
+                ToastNotify("This device is not supported by Google Play Services.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+    public void ToastNotify(final String notificationMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
+                //TextView helloText = (TextView) findViewById(R.id.text_hello);
+                //helloText.setText(notificationMessage);
+            }
+        });
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isVisible = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isVisible = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isVisible = false;
     }
 }

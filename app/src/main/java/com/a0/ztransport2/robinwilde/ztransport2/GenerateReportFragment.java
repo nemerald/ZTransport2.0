@@ -30,6 +30,7 @@ import java.util.HashMap;
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.parseArrayToExcelAndGenerateReport;
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.prepareMonthReportToBeParsedToExcel;
 import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.prepareWeekReportToBeParsedToExcel;
+import static com.a0.ztransport2.robinwilde.ztransport2.HelpMethods.vibrate;
 
 public class GenerateReportFragment extends Fragment{
 
@@ -137,10 +138,10 @@ public class GenerateReportFragment extends Fragment{
                 if(rgIntervalPicker.getCheckedRadioButtonId() == R.id.rbWeekReport){
                     if(HelpMethods.checkIfStringIsEmptyOrBlankOrNull(etOtherWeek.getText().toString())){
                         Toast.makeText(getActivity(), R.string.error_no_week_picked, Toast.LENGTH_SHORT).show();
-                        HelpMethods.vibrate(getActivity(), getString(R.string.error_vibrate));
+                        vibrate(getActivity(), getString(R.string.error_vibrate));
                     }else if(Integer.parseInt(etOtherWeek.getText().toString())<=0 || Integer.parseInt(etOtherWeek.getText().toString())>53){
                         Toast.makeText(getActivity(), R.string.error_picked_week_out_of_index, Toast.LENGTH_SHORT).show();
-                        HelpMethods.vibrate(getActivity(), getString(R.string.error_vibrate));
+                        vibrate(getActivity(), getString(R.string.error_vibrate));
                     }
                     else{
                         showConfirmationDialog(R.id.rbWeekReport);
@@ -216,6 +217,7 @@ public class GenerateReportFragment extends Fragment{
                         setDefaultState();
                     }else{
                         message = getResources().getString(R.string.report_is_empty_for_interval);
+                        vibrate(getActivity(), getResources().getString(R.string.error_vibrate));
                     }
                 }
                 if(pickedReportInterval==R.id.rbMonthReport){
@@ -225,6 +227,7 @@ public class GenerateReportFragment extends Fragment{
                         setDefaultState();
                     }else{
                         message = getResources().getString(R.string.report_is_empty_for_interval);
+                        vibrate(getActivity(), getResources().getString(R.string.error_vibrate));
                     }
                 }
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();

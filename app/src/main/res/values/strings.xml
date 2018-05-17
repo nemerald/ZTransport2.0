@@ -160,4 +160,11 @@
     <string name="write_report_success">Skapande av rapport lyckad</string>
     <string name="write_report_failure">Skapande av rapport misslyckad</string>
     <string name="report_is_empty_for_interval">Finns inga rapporter för valt intervall</string>
+    <string name="function">Funktion</string>
+    <string name="type_of_message">Typ av meddelande</string>
+    <string name="free_text">Fritext</string>
+    <string name="reminder">Påminnelse</string>
+    <string name="send_message">Skicka meddelande</string>
+    <string name="has_reported">Rapporterat</string>
+    <string name="has_reported_answer">Nej</string>
 </resources>

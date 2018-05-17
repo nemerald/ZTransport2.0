@@ -430,6 +430,7 @@ public class HelpMethods {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             feedbackMessage=activity.getResources().getString(R.string.write_report_failure);
+            vibrate(activity, activity.getResources().getString(R.string.error_vibrate));
             e.printStackTrace();
         }
 
